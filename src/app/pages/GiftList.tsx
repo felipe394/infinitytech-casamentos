@@ -4,6 +4,14 @@ import { Gift, Heart, Check, ExternalLink, Search, X, Loader2, ShoppingCart, Tra
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PaymentBrick } from "../components/PaymentBrick";
 
+// Import local assets for production compatibility
+import cafeteiraImg from "../../assets/cafeteira.png";
+import mixerImg from "../../assets/mixer.png";
+import toalhasImg from "../../assets/jogodetoalhas.png";
+import potesImg from "../../assets/jogodepotes.png";
+import lixeiraImg from "../../assets/lixeira.png";
+import pixQrImg from "../../assets/pix-qr.jpeg";
+
 interface GiftItem {
   id: number;
   name: string;
@@ -69,7 +77,7 @@ export function GiftList() {
       name: "Cafeteira Espresso",
       category: "cozinha",
       price: 1249.74,
-      image: "/src/assets/cafeteira.png",
+      image: cafeteiraImg,
       available: true,
     },
     {
@@ -93,7 +101,7 @@ export function GiftList() {
       name: "Mixer Planetário",
       category: "cozinha",
       price: 1020.62,
-      image: "/src/assets/mixer.png",
+      image: mixerImg,
       available: true,
     },
     {
@@ -149,7 +157,7 @@ export function GiftList() {
       name: "Jogo de Toalhas de Banho",
       category: "casa",
       price: 104.15,
-      image: "/src/assets/jogodetoalhas.png",
+      image: toalhasImg,
       available: true,
     },
     {
@@ -189,7 +197,7 @@ export function GiftList() {
       name: "Jogo de Potes para Cozinha",
       category: "cozinha",
       price: 128.09,
-      image: "/src/assets/jogodepotes.png",
+      image: potesImg,
       available: true,
     },
     {
@@ -197,7 +205,7 @@ export function GiftList() {
       name: "Lixeira para Banheiro",
       category: "casa",
       price: 115.60,
-      image: "/src/assets/lixeira.png",
+      image: lixeiraImg,
       available: true,
     },
     {
@@ -728,7 +736,7 @@ export function GiftList() {
                       <p className="text-green-700 font-bold mb-4">Escaneie o QR Code para pagar via PIX:</p>
                       <div className="bg-white rounded-2xl p-4 w-52 h-52 mx-auto mb-4 shadow-inner">
                         <img
-                          src="/src/assets/pix-qr.jpeg"
+                          src={pixQrImg}
                           alt="PIX QR Code"
                           className="w-full h-full object-contain"
                         />

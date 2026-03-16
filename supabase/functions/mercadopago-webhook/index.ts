@@ -42,7 +42,14 @@ serve(async (req) => {
       const paymentInfo = await mpResponse.json()
       console.log(`Payment ${paymentId}: status=${paymentInfo.status}, method=${paymentInfo.payment_method_id}`)
 
-      // 2. Upsert into Supabase payments table
+      // 2. Fetch existing payment to avoid overwriting gift_name with null
+      const { data: existingPayment } = await supabase
+        .from('payments')
+        .select('gift_name')
+        .eq('mercado_pago_id', paymentId.toString())
+        .single()
+
+      // 3. Upsert into Supabase payments table
       const { error } = await supabase
         .from('payments')
         .upsert({
@@ -50,7 +57,7 @@ serve(async (req) => {
           status: paymentInfo.status,
           amount: paymentInfo.transaction_amount,
           guest_email: paymentInfo.payer?.email,
-          gift_name: paymentInfo.description,
+          gift_name: paymentInfo.description || existingPayment?.gift_name,
           payment_method: paymentInfo.payment_method_id,
           created_at: paymentInfo.date_created,
         }, { onConflict: 'mercado_pago_id' })

@@ -40,6 +40,7 @@ export function PaymentBrick({ amount, description, onSuccess, onFailure }: Paym
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${supabaseAnonKey}`,
+          'apikey': supabaseAnonKey,
         },
         body: JSON.stringify({ formData, description }),
       });

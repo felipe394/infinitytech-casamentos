@@ -28,7 +28,10 @@ serve(async (req) => {
         'Content-Type': 'application/json',
         'X-Idempotency-Key': crypto.randomUUID(),
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify({
+        ...formData,
+        description: description
+      }),
     })
 
     const data = await response.json()
