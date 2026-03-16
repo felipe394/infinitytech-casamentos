@@ -610,7 +610,7 @@ export function GiftList() {
 
             <div className="bg-white rounded-2xl p-4 w-48 h-48 mx-auto mb-8 shadow-inner flex items-center justify-center">
               <img
-                src="/src/assets/pix-qr.jpeg"
+                src={pixQrImg}
                 alt="PIX QR Code"
                 className="w-full h-full object-contain"
                 onError={(e) => {
