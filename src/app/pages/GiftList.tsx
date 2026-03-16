@@ -330,7 +330,7 @@ export function GiftList() {
                   <ShoppingCart className="w-6 h-6 text-wedding-pink" />
                   <h3 className="text-xl font-serif">Seu Carrinho</h3>
                 </div>
-                <button 
+                <button
                   onClick={() => setIsCartOpen(false)}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                 >
@@ -343,7 +343,7 @@ export function GiftList() {
                   <div className="h-full flex flex-col items-center justify-center text-center text-gray-400 space-y-4">
                     <Gift className="w-16 h-16 opacity-20" />
                     <p>Seu carrinho está vazio</p>
-                    <button 
+                    <button
                       onClick={() => setIsCartOpen(false)}
                       className="text-wedding-pink font-bold hover:underline"
                     >
@@ -363,21 +363,21 @@ export function GiftList() {
                         </p>
                         <div className="flex items-center gap-3">
                           <div className="flex items-center border border-gray-200 rounded-lg">
-                            <button 
+                            <button
                               onClick={() => updateQuantity(item.id, -1)}
                               className="p-1 hover:bg-gray-50 text-gray-500"
                             >
                               <Minus className="w-4 h-4" />
                             </button>
                             <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
-                            <button 
+                            <button
                               onClick={() => updateQuantity(item.id, 1)}
                               className="p-1 hover:bg-gray-50 text-gray-500"
                             >
                               <Plus className="w-4 h-4" />
                             </button>
                           </div>
-                          <button 
+                          <button
                             onClick={() => removeFromCart(item.id)}
                             className="text-gray-400 hover:text-wedding-pink transition-colors"
                           >
@@ -403,7 +403,7 @@ export function GiftList() {
                   Continuar Compra
                   <Check className="w-5 h-5" />
                 </button>
-                <button 
+                <button
                   onClick={() => setIsCartOpen(false)}
                   className="w-full py-2 text-gray-500 text-sm font-medium hover:text-wedding-pink transition-colors"
                 >
@@ -482,7 +482,7 @@ export function GiftList() {
             <p className="text-lg text-gray-700 leading-relaxed mb-8">
               Mas se você deseja nos presentear, preparamos uma lista com carinho pensando
               em começar nossa vida juntos. Você também pode contribuir através do Mercado Pago
-              diretamente aqui na plataforma via PIX, Boleto ou Cartão de Crédito/Débito. ❤️
+              diretamente aqui na plataforma via PIX ou Cartão de Crédito. ❤️
             </p>
           </motion.div>
         </div>
@@ -712,8 +712,8 @@ export function GiftList() {
                   <button
                     onClick={() => setPaymentTab('pix')}
                     className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all ${paymentTab === 'pix'
-                        ? 'bg-green-500 text-white shadow-lg shadow-green-200'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-green-500 text-white shadow-lg shadow-green-200'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                   >
                     PIX
@@ -721,8 +721,8 @@ export function GiftList() {
                   <button
                     onClick={() => setPaymentTab('card')}
                     className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all ${paymentTab === 'card'
-                        ? 'bg-wedding-pink text-white shadow-lg shadow-rose-200'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? 'bg-wedding-pink text-white shadow-lg shadow-rose-200'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                   >
                     Cartão de Crédito
