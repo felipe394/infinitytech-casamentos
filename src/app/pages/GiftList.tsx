@@ -108,7 +108,7 @@ export function GiftList() {
     },
     {
       id: 7,
-      name: "Contribuição Lua de Mel - Passagens",
+      name: "Contribuição Lua de Mel - Passeios",
       category: "viagem",
       price: 2082.90,
       image: "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
@@ -140,7 +140,7 @@ export function GiftList() {
     },
     {
       id: 11,
-      name: "Contribuição Lua de Mel - Passeios",
+      name: "Contribuição Lua de Mel - Praia",
       category: "viagem",
       price: 1562.17,
       image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
