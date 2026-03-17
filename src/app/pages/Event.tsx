@@ -14,7 +14,7 @@ export function Event() {
 
   const schedule = [
     {
-      time: "10:00",
+      time: "9:45",
       title: "Cerimônia Religiosa",
       description: "Nossa união será celebrada com muito amor no próprio espaço La Corcelle.",
       icon: Church,
@@ -39,11 +39,11 @@ export function Event() {
   const dresscode = [
     {
       title: "Traje Esporte Fino",
-      description: "Homens podem escolher traje social completo ou camisa com calça social, enquanto mulheres podem apostar em vestidos midi ou longos.",
+      description: "Homens podem optar pelo traje social completo ou, para uma proposta igualmente sofisticada, camisa combinada com calça social. Já as mulheres podem escolher vestidos midi ou longos, além de composições elegantes com calças ou saias, valorizando sempre o estilo e a harmonia do look.",
     },
     {
-      title: "Cores a Evitar",
-      description: "Por favor, evitem o branco 🤍 (reservado para a noiva), o rosa 🩷 e o verde 💚.",
+      title: "Evite",
+      description: "Por gentileza, pedimos que evitem o uso das cores branco 🤍 (reservado exclusivamente para a noiva), todos os tons de rosa 🩷 e verde esmeralda 💚, para manter a harmonia da paleta escolhida para este momento tão especial.",
     },
   ];
 
@@ -53,7 +53,7 @@ export function Event() {
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1772127822525-7eda37383b9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudWUlMjBkZWNvcmF0aW9ufGVufDF8fHx8MTc3MzM2OTk4MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
             alt="Local do Evento"
             className="w-full h-full object-cover"
           />
@@ -87,7 +87,7 @@ export function Event() {
               <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-lg">
                 <div className="flex items-center gap-2">
                   <Clock className="w-6 h-6" />
-                  <span>10:00</span>
+                  <span>09:45</span>
                 </div>
                 <div className="hidden md:block w-2 h-2 bg-white rounded-full"></div>
                 <div className="flex items-center gap-2">

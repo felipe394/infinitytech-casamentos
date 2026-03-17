@@ -124,9 +124,15 @@ export function Layout() {
             <p className="opacity-80 text-sm mb-6">
               Feito com amor para celebrar nosso grande dia 🩷
             </p>
-            <Link to="/login" className="opacity-60 hover:opacity-100 text-xs transition-colors underline-offset-4 hover:underline">
-              Área Administrativa
-            </Link>
+            <div className="opacity-60 text-xs transition-colors">
+              <Link to="/login" className="hover:opacity-100 uppercase tracking-wider">
+                © Desenvolvido por InfinityTech Services ∞
+              </Link>
+              <span className="mx-2">|</span>
+              <a href="https://connectortech.com.br" target="_blank" rel="noopener noreferrer" className="hover:opacity-100 hover:underline underline-offset-4 pointer-events-auto">
+                Parceria com Connector Tech
+              </a>
+            </div>
           </div>
         </div>
       </footer>

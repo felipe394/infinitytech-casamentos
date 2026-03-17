@@ -19,21 +19,21 @@ export function Home() {
       title: "Lista de Presentes",
       description: "Escolha seu presente",
       link: "/lista-presentes",
-      color: "purple",
+      color: "rose",
     },
     {
       icon: Camera,
       title: "Galeria",
       description: "Nossas fotos especiais",
       link: "/galeria",
-      color: "amber",
+      color: "rose",
     },
     {
       icon: Users,
       title: "Confirmar Presença",
       description: "Nos avise se virá",
       link: "/confirmar-presenca",
-      color: "green",
+      color: "rose",
     },
   ];
 
@@ -207,9 +207,9 @@ export function Home() {
           >
             <Heart className="w-12 h-12 text-white fill-white mx-auto mb-6" />
             <blockquote className="text-2xl md:text-3xl font-serif italic mb-6">
-              "Melhor é serem dois do que um... O cordão de três dobras não se quebra facilmente".
+              "Porque Dele, e por Ele, e para Ele são todas as coisas, Glória, pois, a Ele eternamente, amém.".
             </blockquote>
-            <p className="text-xl md:text-2xl"> - Eclesiastes 4:12</p>
+            <p className="text-xl md:text-2xl"> - Romanos 11:36</p>
           </motion.div>
         </div>
       </section>

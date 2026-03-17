@@ -11,6 +11,8 @@ import toalhasImg from "../../assets/jogodetoalhas.png";
 import potesImg from "../../assets/jogodepotes.png";
 import lixeiraImg from "../../assets/lixeira.png";
 import pixQrImg from "../../assets/pix-qr.jpeg";
+import mia1Img from "../../assets/Mia1.png";
+import mia2Img from "../../assets/mia2.png";
 
 interface GiftItem {
   id: number;
@@ -49,9 +51,9 @@ export function GiftList() {
 
   const categories = [
     { id: "todos", label: "Todos" },
-    { id: "casa", label: "Casa" },
-    { id: "cozinha", label: "Cozinha" },
-    { id: "quarto", label: "Quarto" },
+    { id: "cama", label: "Cama" },
+    { id: "mesa", label: "Mesa" },
+    { id: "banho", label: "Banho" },
     { id: "viagem", label: "Lua de Mel" },
   ];
 
@@ -59,7 +61,7 @@ export function GiftList() {
     {
       id: 1,
       name: "Jogo de Panelas Premium",
-      category: "cozinha",
+      category: "mesa",
       price: 885.23,
       image: "https://images.unsplash.com/photo-1556909114-44e3e70034e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -67,7 +69,7 @@ export function GiftList() {
     {
       id: 2,
       name: "Jogo de Cama King Premium",
-      category: "quarto",
+      category: "cama",
       price: 676.94,
       image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -75,7 +77,7 @@ export function GiftList() {
     {
       id: 3,
       name: "Cafeteira Espresso",
-      category: "cozinha",
+      category: "mesa",
       price: 1249.74,
       image: cafeteiraImg,
       available: true,
@@ -83,7 +85,7 @@ export function GiftList() {
     {
       id: 4,
       name: "Móveis Planejados",
-      category: "casa",
+      category: "cama",
       price: 2603.62,
       image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -91,7 +93,7 @@ export function GiftList() {
     {
       id: 5,
       name: "Kit de Toalhas Premium",
-      category: "casa",
+      category: "banho",
       price: 468.65,
       image: "https://images.unsplash.com/photo-1583845112203-29329902332e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -99,7 +101,7 @@ export function GiftList() {
     {
       id: 6,
       name: "Mixer Planetário",
-      category: "cozinha",
+      category: "mesa",
       price: 1020.62,
       image: mixerImg,
       available: true,
@@ -115,7 +117,7 @@ export function GiftList() {
     {
       id: 8,
       name: "Jogo de Jantar Porcelana (42 peças)",
-      category: "cozinha",
+      category: "mesa",
       price: 781.09,
       image: "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -123,7 +125,7 @@ export function GiftList() {
     {
       id: 9,
       name: "Edredom Premium King",
-      category: "quarto",
+      category: "cama",
       price: 604.04,
       image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -131,7 +133,7 @@ export function GiftList() {
     {
       id: 10,
       name: "Air Fryer Grande",
-      category: "cozinha",
+      category: "mesa",
       price: 708.19,
       image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -147,7 +149,7 @@ export function GiftList() {
     {
       id: 12,
       name: "Smart TV 55\"",
-      category: "casa",
+      category: "cama",
       price: 1874.61,
       image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -155,7 +157,7 @@ export function GiftList() {
     {
       id: 13,
       name: "Jogo de Toalhas de Banho",
-      category: "casa",
+      category: "banho",
       price: 104.15,
       image: toalhasImg,
       available: true,
@@ -163,7 +165,7 @@ export function GiftList() {
     {
       id: 14,
       name: "Kit Xícaras de Café",
-      category: "cozinha",
+      category: "mesa",
       price: 110.39,
       image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -171,7 +173,7 @@ export function GiftList() {
     {
       id: 15,
       name: "Vela Aromática Premium",
-      category: "casa",
+      category: "banho",
       price: 124.97,
       image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -179,7 +181,7 @@ export function GiftList() {
     {
       id: 16,
       name: "Tábua de Corte Artesanal",
-      category: "cozinha",
+      category: "mesa",
       price: 156.22,
       image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -187,7 +189,7 @@ export function GiftList() {
     {
       id: 17,
       name: "Liquidificador",
-      category: "cozinha",
+      category: "mesa",
       price: 291.61,
       image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -195,7 +197,7 @@ export function GiftList() {
     {
       id: 18,
       name: "Jogo de Potes para Cozinha",
-      category: "cozinha",
+      category: "mesa",
       price: 128.09,
       image: potesImg,
       available: true,
@@ -203,7 +205,7 @@ export function GiftList() {
     {
       id: 19,
       name: "Lixeira para Banheiro",
-      category: "casa",
+      category: "banho",
       price: 115.60,
       image: lixeiraImg,
       available: true,
@@ -211,7 +213,7 @@ export function GiftList() {
     {
       id: 20,
       name: "Cooktop 4 Bocas",
-      category: "cozinha",
+      category: "mesa",
       price: 572.82,
       image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
@@ -219,9 +221,57 @@ export function GiftList() {
     {
       id: 21,
       name: "Micro-ondas",
-      category: "cozinha",
+      category: "mesa",
       price: 499.91,
       image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      available: true,
+    },
+    {
+      id: 22,
+      name: "Contribuição Lua de Mel: Jantar Romântico",
+      category: "viagem",
+      price: 262.50,
+      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      available: true,
+    },
+    {
+      id: 23,
+      name: "Contribuição Lua de Mel: Almoço Especial",
+      category: "viagem",
+      price: 294.00,
+      image: "https://images.unsplash.com/photo-1544148103-0773bf10d330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      available: true,
+    },
+    {
+      id: 24,
+      name: "Contribuição Lua de Mel: Passeio de Carro",
+      category: "viagem",
+      price: 367.50,
+      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      available: true,
+    },
+    {
+      id: 25,
+      name: "Contribuição Lua de Mel: Passeio de Barco",
+      category: "viagem",
+      price: 420.00,
+      image: "https://images.unsplash.com/photo-1534008897995-27a23e859048?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      available: true,
+    },
+    {
+      id: 26,
+      name: "Gata Mia: Casinha",
+      category: "cama",
+      price: 157.50,
+      image: mia1Img,
+      available: true,
+    },
+    {
+      id: 27,
+      name: "Gata Mia: Ração Premium",
+      category: "mesa",
+      price: 105.00,
+      image: mia2Img,
       available: true,
     },
   ];

@@ -89,7 +89,7 @@ export function RSVP() {
         <div className="text-center mb-12">
           <Heart className="w-12 h-12 text-wedding-pink mx-auto mb-4" />
           <h1 className="text-5xl font-serif text-gray-900 mb-4">Confirmar Presença</h1>
-          <p className="text-xl text-gray-600">Por favor, confirme sua presença até o dia 30 de Outubro de 2026</p>
+          <p className="text-xl text-gray-600">Por favor, confirme sua presença até o dia 08 de Outubro de 2026</p>
         </div>
 
         {!selectedGuest ? (
