@@ -274,14 +274,7 @@ export function GiftList() {
       image: mia2Img,
       available: true,
     },
-    {
-      id: 999,
-      name: "Teste de Pagamento (Pode ser ignorado)",
-      category: "todos",
-      price: 10.00,
-      image: "https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
+
   ];
 
   const addToCart = (gift: GiftItem) => {
