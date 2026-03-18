@@ -145,8 +145,8 @@ export function Gallery() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-xl text-gray-700 leading-relaxed">
-              Uma coleção de momentos especiais que marcaram nossa jornada até aqui.
-              Cada foto conta uma parte da nossa história de amor.
+              Uma galeria que reúne momentos únicos e inesquecíveis da nossa caminhada até aqui.
+              Cada fotografia guarda um capítulo da nossa história, refletindo o amor, a cumplicidade e as lembranças que construímos juntos ao longo do tempo. 💍✨
             </p>
           </motion.div>
         </div>
