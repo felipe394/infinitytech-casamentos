@@ -12,7 +12,9 @@ import potesImg from "../../assets/jogodepotes.png";
 import lixeiraImg from "../../assets/lixeira.png";
 import pixQrImg from "../../assets/pix-qr.jpeg";
 import mia1Img from "../../assets/Mia1.png";
-import mia2Img from "../../assets/mia2.png";
+import mia2Img from "../../assets/Mia2.png";
+import praiaImg from "../../assets/praia.png";
+import dateImg from "../../assets/date.png";
 
 interface GiftItem {
   id: number;
@@ -228,7 +230,7 @@ export function GiftList() {
     },
     {
       id: 22,
-      name: "Contribuição Lua de Mel: Jantar Romântico",
+      name: "Lua de Mel: Jantar Romântico",
       category: "viagem",
       price: 262.50,
       image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
@@ -236,7 +238,7 @@ export function GiftList() {
     },
     {
       id: 23,
-      name: "Contribuição Lua de Mel: Almoço Especial",
+      name: "Lua de Mel: Almoço a Dois",
       category: "viagem",
       price: 294.00,
       image: "https://images.unsplash.com/photo-1544148103-0773bf10d330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
@@ -244,18 +246,34 @@ export function GiftList() {
     },
     {
       id: 24,
-      name: "Contribuição Lua de Mel: Passeio de Carro",
+      name: "Lua de Mel: Porçãozinha na Praia",
       category: "viagem",
-      price: 367.50,
-      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      price: 187.50,
+      image: praiaImg,
       available: true,
     },
     {
       id: 25,
-      name: "Contribuição Lua de Mel: Passeio de Barco",
+      name: "Lua de Mel: Passeio no Mar",
       category: "viagem",
       price: 420.00,
       image: "https://images.unsplash.com/photo-1534008897995-27a23e859048?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      available: true,
+    },
+    {
+      id: 28,
+      name: "Lua de Mel: Date Surpresa",
+      category: "viagem",
+      price: 350.00,
+      image: dateImg,
+      available: true,
+    },
+    {
+      id: 29,
+      name: "Lua de Mel: Passeio na Praia",
+      category: "viagem",
+      price: 250.00,
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
       available: true,
     },
     {
@@ -654,7 +672,7 @@ export function GiftList() {
             transition={{ duration: 0.8 }}
             className="bg-wedding-pink text-white rounded-3xl p-8 md:p-12 text-center shadow-2xl"
           >
-            <h2 className="text-3xl md:text-4xl font-serif mb-6">Prefere PIX direto?</h2>
+            <h2 className="text-3xl md:text-4xl font-serif mb-6">Prefere nos ajudar através do PIX? 💰</h2>
             <p className="text-lg mb-8 opacity-90">
               Escaneie o QR Code abaixo para contribuir diretamente.
             </p>

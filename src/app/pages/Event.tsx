@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Calendar, MapPin, Clock, Church, Music, Utensils, Info, Navigation, X } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import wazeIcon from "../../assets/waze.png";
+import salaoImg from "../../assets/salão.png";
 
 export function Event() {
   const [isNavModalOpen, setIsNavModalOpen] = useState(false);
@@ -43,7 +44,7 @@ export function Event() {
     },
     {
       title: "Evite",
-      description: "Por gentileza, pedimos que evitem o uso das cores branco 🤍 (reservado exclusivamente para a noiva), todos os tons de rosa 🩷 e verde esmeralda 💚, para manter a harmonia da paleta escolhida para este momento tão especial.",
+      description: "Por gentileza, (Homens) evitem o uso de camisa de times, bonés e chapéus, (Mulheres) evitem o uso de branco 🤍 (reservado exclusivamente para a noiva), tons de rosa 🩷 e verde esmeralda 💚, para manter a harmonia da paleta escolhida para este momento tão especial.",
     },
   ];
 
@@ -53,7 +54,7 @@ export function Event() {
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
+            src={salaoImg}
             alt="Local do Evento"
             className="w-full h-full object-cover"
           />
@@ -211,7 +212,7 @@ export function Event() {
                 <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0 mt-1">
                   <Info className="w-5 h-5 text-wedding-pink" />
                 </div>
-                <p className="text-gray-700">O local não oferece serviço de vallet.</p>
+                <p className="text-gray-700">O local não oferece serviço de estacionamento.</p>
               </div>
               <div className="flex items-start gap-4">
                 <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0 mt-1">

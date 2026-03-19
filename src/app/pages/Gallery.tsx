@@ -130,7 +130,7 @@ export function Gallery() {
           className="relative z-10 text-center text-white px-4"
         >
           <Camera className="w-16 h-16 mx-auto mb-6" />
-          <h1 className="text-5xl md:text-6xl font-serif mb-4">Nossa Galeria</h1>
+          <h1 className="text-5xl md:text-6xl font-serif mb-4">Veja um pouquinho do nosso pré-wedding 💍✨</h1>
           <p className="text-xl md:text-2xl">Momentos especiais capturados para sempre</p>
         </motion.div>
       </section>
@@ -145,8 +145,10 @@ export function Gallery() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-xl text-gray-700 leading-relaxed">
-              Uma galeria que reúne momentos únicos e inesquecíveis da nossa caminhada até aqui.
-              Cada fotografia guarda um capítulo da nossa história, refletindo o amor, a cumplicidade e as lembranças que construímos juntos ao longo do tempo. 💍✨
+              Preparamos esse momento com muito carinho para registrar o amor, a leveza e a alegria que fazem parte da nossa história. Cada foto guarda um sentimento especial e traduz em imagens tudo o que estamos vivendo.
+            </p>
+            <p className="text-xl text-gray-700 leading-relaxed mt-4">
+              Esperamos que, ao ver essas imagens, você sinta um pouco do que vivemos juntos até aqui. 💛
             </p>
           </motion.div>
         </div>
