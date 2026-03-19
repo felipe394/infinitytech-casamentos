@@ -12,7 +12,7 @@ import potesImg from "../../assets/jogodepotes.png";
 import lixeiraImg from "../../assets/lixeira.png";
 import pixQrImg from "../../assets/pix-qr.jpeg";
 import mia1Img from "../../assets/Mia1.png";
-import mia2Img from "../../assets/Mia2.png";
+import mia2Img from "../../assets/mia2.png";
 import praiaImg from "../../assets/praia.png";
 import dateImg from "../../assets/date.png";
 
