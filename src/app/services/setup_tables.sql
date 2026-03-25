@@ -13,6 +13,18 @@ CREATE TABLE IF NOT EXISTS payments (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Create guest_list table (if not exists)
+CREATE TABLE IF NOT EXISTS guest_list (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  family TEXT,
+  status TEXT DEFAULT 'pending',
+  confirmed_count INTEGER DEFAULT 0,
+  total_guests INTEGER DEFAULT 1,
+  phone TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 
 
 -- Enable RLS (Row Level Security)

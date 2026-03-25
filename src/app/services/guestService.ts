@@ -7,6 +7,7 @@ export interface Guest {
   status: 'pending' | 'confirmed' | 'declined';
   confirmedCount: number;
   totalGuests: number;
+  phone?: string;
 }
 
 export const guestService = {
@@ -27,7 +28,8 @@ export const guestService = {
       family: g.family,
       status: g.status,
       confirmedCount: g.confirmed_count,
-      totalGuests: g.total_guests
+      totalGuests: g.total_guests,
+      phone: g.phone
     }));
   },
 
@@ -39,7 +41,8 @@ export const guestService = {
         family: guest.family,
         status: guest.status,
         confirmed_count: guest.confirmedCount,
-        total_guests: guest.totalGuests
+        total_guests: guest.totalGuests,
+        phone: guest.phone
       }])
       .select()
       .single();
@@ -73,6 +76,7 @@ export const guestService = {
     if (guest.status !== undefined) updateData.status = guest.status;
     if (guest.confirmedCount !== undefined) updateData.confirmed_count = guest.confirmedCount;
     if (guest.totalGuests !== undefined) updateData.total_guests = guest.totalGuests;
+    if (guest.phone !== undefined) updateData.phone = guest.phone;
 
     const { error } = await supabase
       .from('guest_list')
@@ -118,7 +122,8 @@ export const guestService = {
       family: g.family,
       status: g.status,
       confirmedCount: g.confirmed_count,
-      totalGuests: g.total_guests
+      totalGuests: g.total_guests,
+      phone: g.phone
     }));
   }
 };
