@@ -207,7 +207,7 @@ export function Home() {
           >
             <Heart className="w-12 h-12 text-white fill-white mx-auto mb-6" />
             <blockquote className="text-2xl md:text-3xl font-serif italic mb-6">
-              "Porque Dele, e por Ele, e para Ele são todas as coisas, Glória, pois, a Ele eternamente, amém.".
+              "Porque Dele, e por Ele, e para Ele são todas as coisas, Glória, pois, a Ele eternamente, amém!".
             </blockquote>
             <p className="text-xl md:text-2xl"> - Romanos 11:36</p>
           </motion.div>

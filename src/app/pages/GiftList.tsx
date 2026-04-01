@@ -15,6 +15,11 @@ import mia1Img from "../../assets/Mia1.png";
 import mia2Img from "../../assets/mia2.png";
 import praiaImg from "../../assets/praia.png";
 import dateImg from "../../assets/date.png";
+import passeiosImg from "../../assets/passeios.png";
+import jogoPorcelanaImg from "../../assets/jogo_porcelana.png";
+import toalhasPremiumImg from "../../assets/toalhas_premium.png";
+import airfryerImg from "../../assets/airfryer.png";
+import corteImg from "../../assets/corte.png";
 
 interface GiftItem {
   id: number;
@@ -97,7 +102,7 @@ export function GiftList() {
       name: "Kit de Toalhas Premium",
       category: "banho",
       price: 468.65,
-      image: "https://images.unsplash.com/photo-1583845112203-29329902332e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      image: toalhasPremiumImg,
       available: true,
     },
     {
@@ -113,7 +118,7 @@ export function GiftList() {
       name: "Contribuição Lua de Mel - Passeios",
       category: "viagem",
       price: 2082.90,
-      image: "https://images.unsplash.com/photo-1506012787146-f92b2d7d6d96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      image: passeiosImg,
       available: true,
     },
     {
@@ -121,7 +126,7 @@ export function GiftList() {
       name: "Jogo de Jantar Porcelana (42 peças)",
       category: "mesa",
       price: 781.09,
-      image: "https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      image: jogoPorcelanaImg,
       available: true,
     },
     {
@@ -137,7 +142,7 @@ export function GiftList() {
       name: "Air Fryer Grande",
       category: "mesa",
       price: 708.19,
-      image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      image: airfryerImg,
       available: true,
     },
     {
@@ -185,7 +190,7 @@ export function GiftList() {
       name: "Tábua de Corte Artesanal",
       category: "mesa",
       price: 156.22,
-      image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      image: corteImg,
       available: true,
     },
     {
