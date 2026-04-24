@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Gift, Heart, Check, ExternalLink, Search, X, Loader2, ShoppingCart, Trash2, Plus, Minus } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PaymentBrick } from "../components/PaymentBrick";
+import { messageService } from "../services/messageService";
 
 // Import local assets for production compatibility
 import cafeteiraImg from "../../assets/cafeteira.png";
@@ -42,6 +43,7 @@ export function GiftList() {
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [userMessage, setUserMessage] = useState("");
+  const [senderName, setSenderName] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [paymentTab, setPaymentTab] = useState<'pix' | 'card'>('pix');
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -884,31 +886,60 @@ export function GiftList() {
                 </p>
               </div>
 
-              <textarea
-                value={userMessage}
-                onChange={(e) => setUserMessage(e.target.value)}
-                placeholder="Escreva aqui sua mensagem..."
-                className="w-full h-32 p-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none resize-none mb-6 transition-all"
-              />
+              <div className="space-y-4 mb-6">
+                <div>
+                  <label className="block text-left text-sm font-medium text-gray-700 mb-1">
+                    De:
+                  </label>
+                  <input
+                    type="text"
+                    value={senderName}
+                    onChange={(e) => setSenderName(e.target.value)}
+                    placeholder="Ex: Manoel & Família"
+                    className="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-left text-sm font-medium text-gray-700 mb-1">
+                    Para o casal:
+                  </label>
+                  <textarea
+                    value={userMessage}
+                    onChange={(e) => setUserMessage(e.target.value)}
+                    placeholder="Escreva aqui sua mensagem..."
+                    className="w-full h-32 p-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none resize-none transition-all"
+                  />
+                </div>
+              </div>
 
               <div className="flex gap-3">
                 <button
                   disabled={isSendingMessage}
-                  onClick={() => setShowMessageModal(false)}
+                  onClick={() => {
+                    setShowMessageModal(false);
+                    setSenderName("");
+                    setUserMessage("");
+                  }}
                   className="flex-1 px-6 py-4 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-2xl font-bold transition-all"
                 >
                   Agora não
                 </button>
                 <button
-                  disabled={isSendingMessage || !userMessage.trim()}
-                  onClick={() => {
+                  disabled={isSendingMessage || !userMessage.trim() || !senderName.trim()}
+                  onClick={async () => {
                     setIsSendingMessage(true);
-                    setTimeout(() => {
+                    try {
+                      await messageService.saveMessage(senderName, userMessage);
                       setIsSendingMessage(false);
                       setShowMessageModal(false);
                       setUserMessage("");
+                      setSenderName("");
                       alert("Mensagem enviada com carinho! ❤️");
-                    }, 1500);
+                    } catch (error) {
+                      setIsSendingMessage(false);
+                      alert("Ocorreu um erro ao enviar sua mensagem. Por favor, tente novamente.");
+                    }
                   }}
                   className="flex-1 px-6 py-4 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl font-bold shadow-lg shadow-rose-200 transition-all flex items-center justify-center gap-2"
                 >
@@ -919,6 +950,7 @@ export function GiftList() {
                   )}
                 </button>
               </div>
+
             </motion.div>
           </div>
         )}

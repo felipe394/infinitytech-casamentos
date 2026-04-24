@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
-import { Users, Plus, Trash2, CheckCircle, XCircle, Search, LogOut, FileUp, Pencil, CreditCard, DollarSign, TrendingUp, MessageCircle, ExternalLink } from "lucide-react";
+import { Users, Plus, Trash2, CheckCircle, XCircle, Search, LogOut, FileUp, Pencil, CreditCard, DollarSign, TrendingUp, MessageCircle, ExternalLink, Heart } from "lucide-react";
 import { guestService, Guest } from "../services/guestService";
+import { messageService, WeddingMessage } from "../services/messageService";
 import { supabase } from "../services/supabase";
 import * as XLSX from "xlsx";
 
@@ -28,9 +29,11 @@ export function Admin() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'guests' | 'payments' | 'whatsapp'>('guests');
+  const [activeTab, setActiveTab] = useState<'guests' | 'payments' | 'messages' | 'whatsapp'>('guests');
   const [payments, setPayments] = useState<Payment[]>([]);
   const [isLoadingPayments, setIsLoadingPayments] = useState(false);
+  const [messages, setMessages] = useState<WeddingMessage[]>([]);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isQueueActive, setIsQueueActive] = useState(false);
   const [queueIndex, setQueueIndex] = useState(0);
 
@@ -59,6 +62,16 @@ export function Admin() {
     }
   };
 
+  const fetchMessages = async () => {
+    setIsLoadingMessages(true);
+    try {
+      const data = await messageService.getMessages();
+      setMessages(data);
+    } finally {
+      setIsLoadingMessages(false);
+    }
+  };
+
   useEffect(() => {
     const isAuth = sessionStorage.getItem("admin_auth");
     if (!isAuth) {
@@ -67,6 +80,7 @@ export function Admin() {
     }
     fetchGuests();
     fetchPayments();
+    fetchMessages();
   }, [navigate]);
 
   const handleAddGuest = async (e: React.FormEvent) => {
@@ -109,6 +123,13 @@ export function Admin() {
     if (confirm("Deseja realmente excluir este convidado?")) {
       await guestService.deleteGuest(id);
       await fetchGuests();
+    }
+  };
+
+  const handleDeleteMessage = async (id: string) => {
+    if (confirm("Deseja realmente excluir esta mensagem?")) {
+      await messageService.deleteMessage(id);
+      await fetchMessages();
     }
   };
 
@@ -220,6 +241,16 @@ export function Admin() {
           >
             <CreditCard className="w-5 h-5" />
             Pagamentos
+          </button>
+          <button
+            onClick={() => setActiveTab('messages')}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === 'messages'
+              ? 'bg-rose-100 text-rose-700 shadow-lg shadow-rose-100 border border-rose-200'
+              : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+              }`}
+          >
+            <Heart className="w-5 h-5" />
+            Mensagens
           </button>
           <button
             onClick={() => setActiveTab('whatsapp')}
@@ -482,6 +513,60 @@ export function Admin() {
             </div>
           </>
         )}
+
+        {/* ============ MESSAGES TAB ============ */}
+        {activeTab === 'messages' && (
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {isLoadingMessages ? (
+                <div className="col-span-full py-20 text-center text-gray-400">
+                  Carregando mensagens...
+                </div>
+              ) : messages.length > 0 ? (
+                messages.map((msg) => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative group"
+                  >
+                    <button
+                      onClick={() => handleDeleteMessage(msg.id)}
+                      className="absolute top-4 right-4 p-2 text-gray-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-10 h-10 bg-rose-50 rounded-full flex items-center justify-center shrink-0">
+                        <Heart className="w-5 h-5 text-rose-500 fill-rose-500" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-gray-900">{msg.sender_name}</h4>
+                        <p className="text-xs text-gray-400">
+                          {new Date(msg.created_at).toLocaleDateString('pt-BR', {
+                            day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gray-50 p-4 rounded-2xl relative">
+                      <div className="absolute -top-2 left-4 w-4 h-4 bg-gray-50 rotate-45" />
+                      <p className="text-gray-700 italic leading-relaxed">"{msg.message}"</p>
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <div className="col-span-full py-20 text-center text-gray-400">
+                  <Heart className="w-12 h-12 mx-auto mb-4 opacity-20" />
+                  <p>Nenhuma mensagem recebida ainda. ❤️</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
 
         {/* ============ WHATSAPP TAB ============ */}
         {activeTab === 'whatsapp' && (
