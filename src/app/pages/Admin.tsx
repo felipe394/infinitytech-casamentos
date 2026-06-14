@@ -36,6 +36,13 @@ export function Admin() {
   const [isLoadingMessages, setIsLoadingMessages] = useState(false);
   const [isQueueActive, setIsQueueActive] = useState(false);
   const [queueIndex, setQueueIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 10;
+
+  const handleTabChange = (tab: 'guests' | 'payments' | 'messages' | 'whatsapp') => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+  };
 
   const fetchGuests = async () => {
     setIsLoading(true);
@@ -188,6 +195,12 @@ export function Admin() {
     g.family.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const totalPages = Math.ceil(filteredGuests.length / ITEMS_PER_PAGE);
+  const paginatedGuests = filteredGuests.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
   const stats = {
     total: guests.reduce((acc, g) => acc + g.totalGuests, 0),
     confirmed: guests.reduce((acc, g) => acc + (g.status === 'confirmed' ? g.confirmedCount : 0), 0),
@@ -195,14 +208,17 @@ export function Admin() {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 bg-gray-50">
-      <div className="max-w-6xl mx-auto">
-        <header className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-4xl font-serif text-gray-900 mb-2">Painel Administrativo</h1>
-            <p className="text-gray-600">Gerencie convidados e acompanhe os pagamentos</p>
+    <div className="min-h-screen bg-gray-50 pt-20">
+      {/* Sticky tab bar — sticks just below the site's 80px fixed header */}
+      <div className="sticky top-20 z-40 bg-white border-b border-gray-100 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 py-3 relative">
+          {/* Centered title */}
+          <div className="text-center">
+            <h1 className="text-lg sm:text-2xl font-serif text-gray-900">Painel Admin</h1>
+            <p className="text-xs text-gray-400">Gerencie convidados e pagamentos</p>
           </div>
-          <div className="flex flex-wrap gap-4 w-full lg:w-auto">
+          {/* Logout button - absolute top-right */}
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
             <input
               type="file"
               ref={fileInputRef}
@@ -212,69 +228,78 @@ export function Admin() {
             />
             <button
               onClick={handleLogout}
-              className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 rounded-xl transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl transition-colors text-sm font-medium"
             >
-              <LogOut className="w-5 h-5" />
-              Sair
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Sair</span>
             </button>
           </div>
-        </header>
-
-        {/* Tab Navigation */}
-        <div className="flex gap-2 mb-8">
-          <button
-            onClick={() => setActiveTab('guests')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === 'guests'
-              ? 'bg-rose-500 text-white shadow-lg shadow-rose-200'
-              : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-              }`}
-          >
-            <Users className="w-5 h-5" />
-            Convidados
-          </button>
-          <button
-            onClick={() => setActiveTab('payments')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === 'payments'
-              ? 'bg-green-500 text-white shadow-lg shadow-green-200'
-              : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-              }`}
-          >
-            <CreditCard className="w-5 h-5" />
-            Pagamentos
-          </button>
-          <button
-            onClick={() => setActiveTab('messages')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === 'messages'
-              ? 'bg-rose-100 text-rose-700 shadow-lg shadow-rose-100 border border-rose-200'
-              : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-              }`}
-          >
-            <Heart className="w-5 h-5" />
-            Mensagens
-          </button>
-          <button
-            onClick={() => setActiveTab('whatsapp')}
-            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all ${activeTab === 'whatsapp'
-              ? 'bg-blue-500 text-white shadow-lg shadow-blue-200'
-              : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-              }`}
-          >
-            <MessageCircle className="w-5 h-5" />
-            WhatsApp
-          </button>
         </div>
+
+        {/* Scrollable Tab Navigation */}
+        <div className="max-w-6xl mx-auto px-4 pb-3">
+          <div className="flex flex-wrap justify-center gap-2 pb-0.5">
+            <button
+              onClick={() => handleTabChange('guests')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold transition-all whitespace-nowrap text-sm shrink-0 ${
+                activeTab === 'guests'
+                  ? 'bg-rose-500 text-white shadow-md shadow-rose-200'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Users className="w-4 h-4" />
+              Convidados
+            </button>
+            <button
+              onClick={() => handleTabChange('payments')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold transition-all whitespace-nowrap text-sm shrink-0 ${
+                activeTab === 'payments'
+                  ? 'bg-green-500 text-white shadow-md shadow-green-200'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <CreditCard className="w-4 h-4" />
+              Pagamentos
+            </button>
+            <button
+              onClick={() => handleTabChange('messages')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold transition-all whitespace-nowrap text-sm shrink-0 ${
+                activeTab === 'messages'
+                  ? 'bg-rose-500 text-white shadow-md shadow-rose-200'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <Heart className="w-4 h-4" />
+              Mensagens
+            </button>
+            <button
+              onClick={() => handleTabChange('whatsapp')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold transition-all whitespace-nowrap text-sm shrink-0 ${
+                activeTab === 'whatsapp'
+                  ? 'bg-blue-500 text-white shadow-md shadow-blue-200'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <MessageCircle className="w-4 h-4" />
+              WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 py-6">
 
         {/* ============ GUESTS TAB ============ */}
         {activeTab === 'guests' && (
           <>
             {/* Guest Action Buttons */}
-            <div className="flex flex-wrap gap-4 mb-8">
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={isImporting}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors shadow-sm disabled:opacity-50"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors shadow-sm disabled:opacity-50 text-sm font-medium"
               >
-                <FileUp className="w-5 h-5 text-rose-500" />
+                <FileUp className="w-4 h-4 text-rose-500" />
                 {isImporting ? "Importando..." : "Importar Planilha"}
               </button>
               <button
@@ -282,119 +307,233 @@ export function Admin() {
                   setGuestForm({ name: "", family: "", totalGuests: 1, phone: "" });
                   setIsAdding(true);
                 }}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl transition-colors shadow-lg"
+                className="flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl transition-colors shadow-lg text-sm font-medium"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className="w-4 h-4" />
                 Novo Convidado
               </button>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Total de Convidados</p>
-                <p className="text-3xl font-serif text-gray-900">{stats.total}</p>
+            <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Total</p>
+                <p className="text-2xl font-serif text-gray-900">{stats.total}</p>
               </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Confirmados</p>
-                <p className="text-3xl font-serif text-green-600">{stats.confirmed}</p>
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Confirmados</p>
+                <p className="text-2xl font-serif text-green-600">{stats.confirmed}</p>
               </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">Pendente/Recusado</p>
-                <p className="text-3xl font-serif text-rose-500">{stats.total - stats.confirmed}</p>
+              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Pendentes</p>
+                <p className="text-2xl font-serif text-rose-500">{stats.total - stats.confirmed}</p>
               </div>
             </div>
 
             {/* Search */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 mb-8">
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-3 mb-4">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Buscar por nome ou família..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-rose-500 transition-all"
+                  onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-rose-500 transition-all text-sm"
                 />
               </div>
             </div>
 
-            {/* Guests Table */}
-            <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+            {/* Guests Table - Desktop */}
+            <div className="hidden sm:block bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="bg-gray-50 border-bottom border-gray-100">
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome Principal</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Família/Grupo</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Quantidade</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Telefone</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Status</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Ações</th>
+                    <tr className="bg-gray-50">
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Família</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Qtd</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Telefone</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Status</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-right">Ações</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {isLoading ? (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-12 text-center text-gray-400">
-                          Carregando convidados...
-                        </td>
-                      </tr>
-                    ) : filteredGuests.length > 0 ? (
-                      filteredGuests.map((guest) => (
+                      <tr><td colSpan={6} className="px-6 py-12 text-center text-gray-400">Carregando convidados...</td></tr>
+                    ) : paginatedGuests.length > 0 ? (
+                      paginatedGuests.map((guest) => (
                         <tr key={guest.id} className="hover:bg-gray-50/50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-gray-900">{guest.name}</td>
-                          <td className="px-6 py-4 text-gray-600">{guest.family}</td>
-                          <td className="px-6 py-4 text-center text-gray-600">{guest.totalGuests}</td>
-                          <td className="px-6 py-4 text-gray-600 font-mono text-sm">{guest.phone || '-'}</td>
-                          <td className="px-6 py-4">
+                          <td className="px-5 py-3 font-medium text-gray-900 text-sm">{guest.name}</td>
+                          <td className="px-5 py-3 text-gray-500 text-sm">{guest.family}</td>
+                          <td className="px-5 py-3 text-center text-gray-600 text-sm">{guest.totalGuests}</td>
+                          <td className="px-5 py-3 text-gray-500 font-mono text-xs">{guest.phone || '-'}</td>
+                          <td className="px-5 py-3">
                             <div className="flex items-center justify-center">
                               {guest.status === 'confirmed' ? (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
-                                  <CheckCircle className="w-4 h-4" />
-                                  Confirmado ({guest.confirmedCount})
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+                                  <CheckCircle className="w-3 h-3" />Confirmado ({guest.confirmedCount})
                                 </span>
                               ) : guest.status === 'declined' ? (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-sm font-medium">
-                                  <XCircle className="w-4 h-4" />
-                                  Não virá
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-medium">
+                                  <XCircle className="w-3 h-3" />Não virá
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gray-100 text-gray-600 text-sm font-medium">
-                                  Pendente
-                                </span>
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">Pendente</span>
                               )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 text-right">
-                            <div className="flex justify-end gap-2">
-                              <button
-                                onClick={() => handleEditClick(guest)}
-                                className="p-2 text-gray-400 hover:text-rose-500 transition-colors"
-                              >
-                                <Pencil className="w-5 h-5" />
+                          <td className="px-5 py-3 text-right">
+                            <div className="flex justify-end gap-1">
+                              <button onClick={() => handleEditClick(guest)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors">
+                                <Pencil className="w-4 h-4" />
                               </button>
-                              <button
-                                onClick={() => handleDelete(guest.id)}
-                                className="p-2 text-gray-400 hover:text-rose-500 transition-colors"
-                              >
-                                <Trash2 className="w-5 h-5" />
+                              <button onClick={() => handleDelete(guest.id)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors">
+                                <Trash2 className="w-4 h-4" />
                               </button>
                             </div>
                           </td>
                         </tr>
                       ))
                     ) : (
-                      <tr>
-                        <td colSpan={5} className="px-6 py-12 text-center text-gray-400">
-                          Nenhum convidado encontrado
-                        </td>
-                      </tr>
+                      <tr><td colSpan={6} className="px-6 py-12 text-center text-gray-400">Nenhum convidado encontrado</td></tr>
                     )}
                   </tbody>
                 </table>
               </div>
             </div>
+
+            {/* Guests Cards - Mobile */}
+            <div className="sm:hidden space-y-3">
+              {isLoading ? (
+                <div className="bg-white rounded-2xl p-6 text-center text-gray-400 text-sm">Carregando...</div>
+              ) : paginatedGuests.length > 0 ? (
+                paginatedGuests.map((guest) => (
+                  <div key={guest.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <div>
+                        <p className="font-semibold text-gray-900">{guest.name}</p>
+                        <p className="text-xs text-gray-400">{guest.family} · {guest.totalGuests} pessoa{guest.totalGuests !== 1 ? 's' : ''}</p>
+                        {guest.phone && <p className="text-xs text-gray-400 font-mono mt-0.5">{guest.phone}</p>}
+                      </div>
+                      <div className="flex gap-1 shrink-0">
+                        <button onClick={() => handleEditClick(guest)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors">
+                          <Pencil className="w-4 h-4" />
+                        </button>
+                        <button onClick={() => handleDelete(guest.id)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors">
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      {guest.status === 'confirmed' ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+                          <CheckCircle className="w-3 h-3" />Confirmado ({guest.confirmedCount})
+                        </span>
+                      ) : guest.status === 'declined' ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-medium">
+                          <XCircle className="w-3 h-3" />Não virá
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 text-xs font-medium">Pendente</span>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white rounded-2xl p-6 text-center text-gray-400 text-sm">Nenhum convidado encontrado</div>
+              )}
+            </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between border-t border-gray-100 bg-white px-4 py-3 sm:px-6 mt-6 rounded-3xl shadow-sm border border-gray-100">
+                <div className="flex flex-1 justify-between sm:hidden">
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => { setCurrentPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="relative inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                  >
+                    Anterior
+                  </button>
+                  <span className="text-sm text-gray-700 flex items-center font-medium">
+                    Pág. {currentPage} de {totalPages}
+                  </span>
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => { setCurrentPage(prev => Math.min(prev + 1, totalPages)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="relative ml-3 inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                  >
+                    Próxima
+                  </button>
+                </div>
+                <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-gray-700">
+                      Mostrando <span className="font-semibold">{(currentPage - 1) * ITEMS_PER_PAGE + 1}</span> a{' '}
+                      <span className="font-semibold">
+                        {Math.min(currentPage * ITEMS_PER_PAGE, filteredGuests.length)}
+                      </span>{' '}
+                      de <span className="font-semibold">{filteredGuests.length}</span> convidados
+                    </p>
+                  </div>
+                  <div>
+                    <nav className="isolate inline-flex -space-x-px rounded-md gap-1" aria-label="Pagination">
+                      <button
+                        disabled={currentPage === 1}
+                        onClick={() => { setCurrentPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="relative inline-flex items-center rounded-xl px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 border border-gray-200 disabled:opacity-50 transition-colors"
+                      >
+                        &larr; Anterior
+                      </button>
+                      
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
+                        if (
+                          page === 1 ||
+                          page === totalPages ||
+                          Math.abs(page - currentPage) <= 1
+                        ) {
+                          return (
+                            <button
+                              key={page}
+                              onClick={() => { setCurrentPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                              className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl transition-all ${
+                                currentPage === page
+                                  ? 'z-10 bg-rose-500 text-white shadow-md shadow-rose-200'
+                                  : 'text-gray-900 border border-gray-200 hover:bg-gray-50'
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          );
+                        } else if (
+                          (page === 2 && currentPage > 3) ||
+                          (page === totalPages - 1 && currentPage < totalPages - 2)
+                        ) {
+                          return (
+                            <span
+                              key={page}
+                              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700"
+                            >
+                              ...
+                            </span>
+                          );
+                        }
+                        return null;
+                      })}
+
+                      <button
+                        disabled={currentPage === totalPages}
+                        onClick={() => { setCurrentPage(prev => Math.min(prev + 1, totalPages)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="relative inline-flex items-center rounded-xl px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 border border-gray-200 disabled:opacity-50 transition-colors"
+                      >
+                        Próxima &rarr;
+                      </button>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
 
@@ -402,7 +541,7 @@ export function Admin() {
         {activeTab === 'payments' && (
           <>
             {/* Payments Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <div className="flex items-center gap-3 mb-2">
                   <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
@@ -446,70 +585,81 @@ export function Admin() {
               </div>
             </div>
 
-            {/* Payments Table */}
-            <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+            {/* Payments Table - Desktop */}
+            <div className="hidden sm:block bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
                   <thead>
-                    <tr className="bg-gray-50 border-bottom border-gray-100">
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Presente</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Valor</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Método</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Status</th>
-                      <th className="px-6 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th>
+                    <tr className="bg-gray-50">
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Presente</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Valor</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Email</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Método</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Status</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Data</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
                     {isLoadingPayments ? (
-                      <tr>
-                        <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
-                          Carregando pagamentos...
-                        </td>
-                      </tr>
+                      <tr><td colSpan={6} className="px-6 py-12 text-center text-gray-400">Carregando pagamentos...</td></tr>
                     ) : payments.length > 0 ? (
                       payments.map((payment) => (
                         <tr key={payment.id} className="hover:bg-gray-50/50 transition-colors">
-                          <td className="px-6 py-4 font-medium text-gray-900">{payment.gift_name || '-'}</td>
-                          <td className="px-6 py-4 text-green-600 font-bold">
+                          <td className="px-5 py-3 font-medium text-gray-900 text-sm">{payment.gift_name || '-'}</td>
+                          <td className="px-5 py-3 text-green-600 font-bold text-sm">
                             R$ {(payment.amount || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                           </td>
-                          <td className="px-6 py-4 text-gray-600 text-sm">{payment.guest_email || '-'}</td>
-                          <td className="px-6 py-4 text-center">
-                            <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium uppercase">
-                              {payment.payment_method || '-'}
+                          <td className="px-5 py-3 text-gray-500 text-xs">{payment.guest_email || '-'}</td>
+                          <td className="px-5 py-3 text-center">
+                            <span className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium uppercase">{payment.payment_method || '-'}</span>
+                          </td>
+                          <td className="px-5 py-3 text-center">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                              payment.status === 'approved' ? 'bg-green-100 text-green-700'
+                              : payment.status === 'pending' || payment.status === 'in_process' ? 'bg-amber-100 text-amber-700'
+                              : 'bg-rose-100 text-rose-700'
+                            }`}>
+                              {payment.status === 'approved' ? 'Aprovado' : payment.status === 'pending' ? 'Pendente' : payment.status === 'in_process' ? 'Processando' : payment.status || 'Desconhecido'}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-center">
-                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${payment.status === 'approved'
-                              ? 'bg-green-100 text-green-700'
-                              : payment.status === 'pending' || payment.status === 'in_process'
-                                ? 'bg-amber-100 text-amber-700'
-                                : 'bg-rose-100 text-rose-700'
-                              }`}>
-                              {payment.status === 'approved' ? 'Aprovado'
-                                : payment.status === 'pending' ? 'Pendente'
-                                  : payment.status === 'in_process' ? 'Processando'
-                                    : payment.status || 'Desconhecido'}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 text-gray-500 text-sm">
-                            {payment.created_at ? new Date(payment.created_at).toLocaleDateString('pt-BR', {
-                              day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
-                            }) : '-'}
+                          <td className="px-5 py-3 text-gray-400 text-xs">
+                            {payment.created_at ? new Date(payment.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '-'}
                           </td>
                         </tr>
                       ))
                     ) : (
-                      <tr>
-                        <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
-                          Nenhum pagamento registrado ainda
-                        </td>
-                      </tr>
+                      <tr><td colSpan={6} className="px-6 py-12 text-center text-gray-400">Nenhum pagamento registrado ainda</td></tr>
                     )}
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            {/* Payments Cards - Mobile */}
+            <div className="sm:hidden space-y-3">
+              {isLoadingPayments ? (
+                <div className="bg-white rounded-2xl p-6 text-center text-gray-400 text-sm">Carregando...</div>
+              ) : payments.length > 0 ? (
+                payments.map((payment) => (
+                  <div key={payment.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <p className="font-semibold text-gray-900 text-sm">{payment.gift_name || '-'}</p>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                        payment.status === 'approved' ? 'bg-green-100 text-green-700'
+                        : payment.status === 'pending' || payment.status === 'in_process' ? 'bg-amber-100 text-amber-700'
+                        : 'bg-rose-100 text-rose-700'
+                      }`}>
+                        {payment.status === 'approved' ? 'Aprovado' : payment.status === 'pending' ? 'Pendente' : payment.status === 'in_process' ? 'Processando' : payment.status || '-'}
+                      </span>
+                    </div>
+                    <p className="text-green-600 font-bold">R$ {(payment.amount || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                    <p className="text-xs text-gray-400 mt-1">{payment.guest_email || ''}</p>
+                    <p className="text-xs text-gray-300 mt-0.5">{payment.created_at ? new Date(payment.created_at).toLocaleDateString('pt-BR') : ''}</p>
+                  </div>
+                ))
+              ) : (
+                <div className="bg-white rounded-2xl p-6 text-center text-gray-400 text-sm">Nenhum pagamento registrado ainda</div>
+              )}
             </div>
           </>
         )}
@@ -796,8 +946,11 @@ export function Admin() {
             </div>
           </>
         )}
+
       </div>
-    )}
+        )}
+
+      </div>
 
       {/* Guest Modal (Add/Edit) */}
       {(isAdding || isEditing) && (
@@ -805,7 +958,7 @@ export function Admin() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full"
+            className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
           >
             <h2 className="text-2xl font-serif mb-6">{isEditing ? "Editar Convidado" : "Novo Convidado"}</h2>
             <form onSubmit={isEditing ? handleUpdateGuest : handleAddGuest} className="space-y-4">
@@ -877,6 +1030,5 @@ export function Admin() {
         </div>
       )}
     </div>
-  </div>
   );
 }

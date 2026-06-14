@@ -1,96 +1,226 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import { motion } from "motion/react";
-import { Lock, User } from "lucide-react";
+import { useNavigate, Link } from "react-router";
+import { motion, AnimatePresence } from "motion/react";
+import { Lock, User, Eye, EyeOff, Heart, AlertCircle } from "lucide-react";
 import { supabase } from "../services/supabase";
 
 export function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const { data, error } = await supabase
-      .from('login')
-      .select('*')
-      .eq('username', username)
-      .eq('password', password)
-      .single();
+    setError("");
+    setIsLoading(true);
 
-    if (data && !error) {
-      sessionStorage.setItem("admin_auth", "true");
-      navigate("/admin");
-    } else {
-      setError("Usuário ou senha incorretos");
+    try {
+      const { data, error } = await supabase
+        .from("login")
+        .select("*")
+        .eq("username", username)
+        .eq("password", password)
+        .single();
+
+      if (data && !error) {
+        sessionStorage.setItem("admin_auth", "true");
+        navigate("/admin");
+      } else {
+        setError("Usuário ou senha incorretos. Verifique seus dados.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 px-4 flex items-center justify-center bg-rose-50/30">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-rose-950 via-rose-900 to-pink-900 px-4 py-12">
+      {/* Decorative background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-rose-800/20 rounded-full blur-3xl" />
+        {/* Floating hearts */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-rose-400/20"
+            style={{
+              left: `${15 + i * 15}%`,
+              top: `${10 + (i % 3) * 30}%`,
+              fontSize: `${20 + i * 8}px`,
+            }}
+            animate={{
+              y: [-10, 10, -10],
+              rotate: [-5, 5, -5],
+            }}
+            transition={{
+              duration: 3 + i * 0.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.4,
+            }}
+          >
+            ♥
+          </motion.div>
+        ))}
+      </div>
+
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8 md:p-12"
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="w-full max-w-md relative"
       >
-        <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-8 h-8 text-rose-600" />
+        {/* Glass card */}
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
+          {/* Top accent bar */}
+          <div className="h-1 bg-gradient-to-r from-rose-400 via-pink-400 to-rose-400" />
+
+          <div className="p-8 sm:p-10">
+            {/* Header */}
+            <div className="text-center mb-8">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", delay: 0.2, stiffness: 200 }}
+                className="w-16 h-16 bg-gradient-to-br from-rose-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-rose-900/50"
+              >
+                <Heart className="w-8 h-8 text-white fill-white" />
+              </motion.div>
+              <h1 className="text-2xl sm:text-3xl font-serif text-white mb-1">
+                Área Administrativa
+              </h1>
+              <p className="text-rose-200/70 text-sm">
+                Acesso restrito — credenciais necessárias
+              </p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleLogin} className="space-y-5">
+              {/* Username field */}
+              <div>
+                <label className="block text-sm font-medium text-rose-100/80 mb-2">
+                  Usuário
+                </label>
+                <div className="relative group">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-300/60 group-focus-within:text-rose-300 transition-colors" />
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                      setError("");
+                    }}
+                    className="w-full pl-12 pr-4 py-3.5 bg-white/10 border border-white/20 rounded-xl text-white placeholder-rose-200/40 outline-none focus:border-rose-400/60 focus:bg-white/15 focus:ring-2 focus:ring-rose-400/20 transition-all duration-200"
+                    placeholder="Digite seu usuário"
+                    autoComplete="username"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Password field */}
+              <div>
+                <label className="block text-sm font-medium text-rose-100/80 mb-2">
+                  Senha
+                </label>
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-300/60 group-focus-within:text-rose-300 transition-colors" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setError("");
+                    }}
+                    className="w-full pl-12 pr-12 py-3.5 bg-white/10 border border-white/20 rounded-xl text-white placeholder-rose-200/40 outline-none focus:border-rose-400/60 focus:bg-white/15 focus:ring-2 focus:ring-rose-400/20 transition-all duration-200"
+                    placeholder="••••••••"
+                    autoComplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-rose-300/60 hover:text-rose-200 transition-colors p-0.5"
+                    tabIndex={-1}
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                  >
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.div
+                        key={showPassword ? "eye-off" : "eye"}
+                        initial={{ opacity: 0, scale: 0.7, rotate: -10 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        exit={{ opacity: 0, scale: 0.7, rotate: 10 }}
+                        transition={{ duration: 0.15 }}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </motion.div>
+                    </AnimatePresence>
+                  </button>
+                </div>
+              </div>
+
+              {/* Forgot password link */}
+              <div className="flex justify-center mt-1">
+                <Link
+                  to="/esqueci-senha"
+                  className="text-sm text-rose-300/70 hover:text-rose-200 transition-colors underline-offset-2 hover:underline"
+                >
+                  Esqueci minha senha
+                </Link>
+              </div>
+
+              {/* Error message */}
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: "auto" }}
+                    exit={{ opacity: 0, y: -8, height: 0 }}
+                    className="flex items-center gap-2.5 px-4 py-3 bg-red-500/15 border border-red-400/30 rounded-xl text-red-300 text-sm"
+                  >
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    {error}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Submit button */}
+              <motion.button
+                type="submit"
+                disabled={isLoading}
+                whileTap={{ scale: 0.98 }}
+                className="w-full py-4 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white font-semibold rounded-xl shadow-lg shadow-rose-900/50 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-2"
+              >
+                {isLoading ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                      className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                    />
+                    Entrando...
+                  </>
+                ) : (
+                  "Entrar"
+                )}
+              </motion.button>
+            </form>
           </div>
-          <h1 className="text-3xl font-serif text-gray-900 mb-2">Acesso Restrito</h1>
-          <p className="text-gray-600">Entre com suas credenciais de administrador</p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Usuário</label>
-            <div className="relative">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none transition-all"
-                placeholder="Ex: Admin"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Senha</label>
-            <div className="relative">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-transparent outline-none transition-all"
-                placeholder="••••••"
-                required
-              />
-            </div>
-          </div>
-
-          {error && (
-            <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-red-500 text-sm text-center"
-            >
-              {error}
-            </motion.p>
-          )}
-
-          <button
-            type="submit"
-            className="w-full py-4 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-medium shadow-lg transition-all transform hover:scale-[1.02] active:scale-95"
-          >
-            Entrar
-          </button>
-        </form>
+        {/* Footer */}
+        <p className="text-center text-rose-300/40 text-xs mt-6">
+          Julia &amp; Felipe · {new Date().getFullYear()}
+        </p>
       </motion.div>
     </div>
   );

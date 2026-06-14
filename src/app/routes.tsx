@@ -9,6 +9,8 @@ import { Gallery } from "./pages/Gallery";
 import { Login } from "./pages/Login";
 import { Admin } from "./pages/Admin";
 import { NotFound } from "./pages/NotFound";
+import { ForgotPassword } from "./pages/ForgotPassword";
+import { ResetPassword } from "./pages/ResetPassword";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +25,8 @@ export const router = createBrowserRouter([
       { path: "galeria", Component: Gallery },
       { path: "login", Component: Login },
       { path: "admin", Component: Admin },
+      { path: "esqueci-senha", Component: ForgotPassword },
+      { path: "reset-senha", Component: ResetPassword },
       { path: "*", Component: NotFound },
     ],
   },
