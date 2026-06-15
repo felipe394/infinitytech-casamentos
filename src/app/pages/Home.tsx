@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Calendar, MapPin, Heart, Gift, Camera, Users } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { useState, useEffect } from "react";
-import casalImage from "../../assets/casal.jpg";
+import casalImage from "../../assets/pre_wedding_capa5.jpeg";
 
 export function Home() {
   const features = [
@@ -40,13 +40,14 @@ export function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen flex items-start justify-center pt-24 md:pt-32 overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
           <ImageWithFallback
             src={casalImage}
             alt="Julia e Felipe"
             className="w-full h-full object-cover"
+            style={{ objectPosition: "40% 60%" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
         </div>
@@ -62,7 +63,7 @@ export function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 1 }}
-            className="text-lg md:text-xl mb-4 tracking-wide"
+            className="text-lg md:text-xl mb-2 tracking-wide"
           >
             Celebre conosco
           </motion.p>
@@ -70,7 +71,7 @@ export function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-serif mb-6"
+            className="text-5xl md:text-7xl lg:text-8xl font-serif mb-4"
           >
             Julia & Felipe
           </motion.h1>
@@ -78,7 +79,7 @@ export function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 1 }}
-            className="flex items-center justify-center gap-4 text-xl md:text-2xl mb-8"
+            className="flex items-center justify-center gap-4 text-xl md:text-2xl mb-6"
           >
             <Heart className="w-6 h-6 text-wedding-white/60" />
             <span>08.11.2026</span>
@@ -90,7 +91,7 @@ export function Home() {
             transition={{ delay: 0.9, duration: 1 }}
             className="space-y-4"
           >
-            <p className="text-lg md:text-xl mb-8 flex items-center justify-center gap-2">
+            <p className="text-lg md:text-xl mb-6 flex items-center justify-center gap-2">
               <MapPin className="w-5 h-5" />
               La Corcelle, São Paulo
             </p>

@@ -29,7 +29,7 @@ export function Login() {
         sessionStorage.setItem("admin_auth", "true");
         navigate("/admin");
       } else {
-        setError("Usuário ou senha incorretos. Verifique seus dados.");
+        setError("E-mail ou senha incorretos. Verifique seus dados.");
       }
     } finally {
       setIsLoading(false);
@@ -104,7 +104,7 @@ export function Login() {
               {/* Username field */}
               <div>
                 <label className="block text-sm font-medium text-rose-100/80 mb-2">
-                  Usuário
+                  E-mail de login
                 </label>
                 <div className="relative group">
                   <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-300/60 group-focus-within:text-rose-300 transition-colors" />
@@ -116,7 +116,7 @@ export function Login() {
                       setError("");
                     }}
                     className="w-full pl-12 pr-4 py-3.5 bg-white/10 border border-white/20 rounded-xl text-white placeholder-rose-200/40 outline-none focus:border-rose-400/60 focus:bg-white/15 focus:ring-2 focus:ring-rose-400/20 transition-all duration-200"
-                    placeholder="Digite seu usuário"
+                    placeholder="Digite seu e-mail"
                     autoComplete="username"
                     required
                   />

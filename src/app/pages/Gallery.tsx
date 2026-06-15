@@ -2,6 +2,18 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import gallery1 from "../../assets/gallery_1.jpg";
+import gallery2 from "../../assets/gallery_2.jpg";
+import gallery3 from "../../assets/gallery_3.jpg";
+import gallery4 from "../../assets/gallery_4.jpg";
+import gallery5 from "../../assets/gallery_5.jpg";
+import gallery6 from "../../assets/gallery_6.jpg";
+import gallery7 from "../../assets/gallery_7.jpg";
+import gallery8 from "../../assets/gallery_8.jpg";
+import gallery9 from "../../assets/gallery_9.jpg";
+import gallery10 from "../../assets/gallery_10.jpg";
+import gallery11 from "../../assets/gallery_11.jpg";
+import gallery12 from "../../assets/gallery_12.jpg";
 
 export function Gallery() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -9,75 +21,75 @@ export function Gallery() {
   const photos = [
     {
       id: 1,
-      src: "https://images.unsplash.com/photo-1749224240449-2728bac89c60?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyb21hbnRpYyUyMGNvdXBsZSUyMGVuZ2FnZW1lbnQlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NzMzMDI2MTJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      src: gallery1,
       alt: "Foto do casal 1",
       category: "casal",
     },
     {
       id: 2,
-      src: "https://images.unsplash.com/photo-1765185206392-c89961e4eff6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbmdhZ2VtZW50JTIwcHJvcG9zYWwlMjByb21hbnRpYyUyMG1vbWVudHxlbnwxfHx8fDE3NzMzNjk5ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      src: gallery2,
       alt: "Foto do casal 2",
       category: "casal",
     },
     {
       id: 3,
-      src: "https://images.unsplash.com/photo-1621797005674-48e0150206da?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBiZWFjaCUyMHN1bnNldCUyMHJvbWFudGljfGVufDF8fHx8MTc3MzM2OTk4Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      src: gallery3,
       alt: "Foto do casal 3",
       category: "casal",
     },
     {
       id: 4,
-      src: "https://images.unsplash.com/photo-1738694242379-ef21044985bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwcmluZ3MlMjBnb2xkJTIwZWxlZ2FudHxlbnwxfHx8fDE3NzMzNjk5ODR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Alianças",
-      category: "detalhes",
+      src: gallery4,
+      alt: "Foto do casal 4",
+      category: "casal",
     },
     {
       id: 5,
-      src: "https://images.unsplash.com/photo-1700142611715-8a023c5eb8c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwZmxvd2VycyUyMGJvdXF1ZXQlMjB3aGl0ZXxlbnwxfHx8fDE3NzMzNjk5ODV8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Buquê",
-      category: "detalhes",
+      src: gallery5,
+      alt: "Foto do casal 5",
+      category: "casal",
     },
     {
       id: 6,
-      src: "https://images.unsplash.com/photo-1714972383570-44ddc9738355?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBkYW5jaW5nJTIwd2VkZGluZyUyMHBhcnR5fGVufDF8fHx8MTc3MzM2OTk4NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Dançando",
+      src: gallery6,
+      alt: "Foto do casal 6",
       category: "casal",
     },
     {
       id: 7,
-      src: "https://images.unsplash.com/photo-1581745069539-1e60d7f965f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2FrZSUyMGVsZWdhbnQlMjBkZWNvcmF0aW9ufGVufDF8fHx8MTc3MzM2OTk4Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Bolo",
-      category: "detalhes",
+      src: gallery7,
+      alt: "Foto do casal 7",
+      category: "casal",
     },
     {
       id: 8,
-      src: "https://images.unsplash.com/photo-1772127822525-7eda37383b9f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjB3ZWRkaW5nJTIwdmVudUUlMjBkZWNvcmF0aW9ufGVufDF8fHx8MTc3MzM2OTk4MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Decoração",
-      category: "local",
+      src: gallery8,
+      alt: "Foto do casal 8",
+      category: "casal",
     },
     {
       id: 9,
-      src: "https://images.unsplash.com/photo-1769230357956-bc52ceda8c34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2VyZW1vbnklMjBjaHVyY2glMjBhbHRhcnxlbnwxfHx8fDE3NzMzNjk5ODF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Igreja",
-      category: "local",
+      src: gallery9,
+      alt: "Foto do casal 9",
+      category: "casal",
     },
     {
       id: 10,
-      src: "https://images.unsplash.com/photo-1719223852076-6981754ebf76?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwcmVjZXB0aW9uJTIwZGlubmVyJTIwdGFibGV8ZW58MXx8fHwxNzczMzAyNDg5fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Mesa de jantar",
-      category: "local",
+      src: gallery10,
+      alt: "Foto do casal 10",
+      category: "casal",
     },
     {
       id: 11,
-      src: "https://images.unsplash.com/photo-1768900044120-650653953a6a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwd2VkZGluZyUyMGNvdXBsZSUyMGNlbGVicmF0aW9ufGVufDF8fHx8MTc3MzI1MjYxN3ww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Celebração",
+      src: gallery11,
+      alt: "Foto do casal 11",
       category: "casal",
     },
     {
       id: 12,
-      src: "https://images.unsplash.com/photo-1610377507996-dcd4f0cfc125?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwZ2lmdCUyMHByZXNlbnQlMjBib3h8ZW58MXx8fHwxNzczMzY5OTg2fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      alt: "Presentes",
-      category: "detalhes",
+      src: gallery12,
+      alt: "Foto do casal 12",
+      category: "casal",
     },
   ];
 
@@ -116,9 +128,10 @@ export function Gallery() {
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src="https://images.unsplash.com/photo-1714972383570-44ddc9738355?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VwbGUlMjBkYW5jaW5nJTIwd2VkZGluZyUyMHBhcnR5fGVufDF8fHx8MTc3MzM2OTk4NXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+            src={gallery1}
             alt="Galeria"
             className="w-full h-full object-cover"
+            style={{ objectPosition: "center 50%" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-white"></div>
         </div>
@@ -155,7 +168,7 @@ export function Gallery() {
       </section>
 
       {/* Photo Gallery - Masonry Grid */}
-      <section className="py-20 bg-gradient-to-b from-wedding-pink to-white">
+      <section className="py-20 bg-gradient-to-b from-white via-neutral-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
             {photos.map((photo, index) => (
@@ -169,15 +182,17 @@ export function Gallery() {
               >
                 <div
                   onClick={() => setSelectedImage(index)}
-                  className="relative overflow-hidden rounded-2xl shadow-lg cursor-pointer group"
+                  className="relative overflow-hidden rounded-2xl bg-white p-3 border border-neutral-100 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.08)] hover:shadow-[0_10px_30px_-5px_rgba(0,0,0,0.15)] cursor-pointer group transition-all duration-300 transform hover:-translate-y-1"
                 >
-                  <ImageWithFallback
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full h-auto transform group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                    <Camera className="w-12 h-12 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="overflow-hidden rounded-xl">
+                    <ImageWithFallback
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full h-auto transform group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="absolute inset-3 rounded-xl bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                    <Camera className="w-10 h-10 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                 </div>
               </motion.div>
