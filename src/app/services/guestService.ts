@@ -10,6 +10,13 @@ export interface Guest {
   phone?: string;
 }
 
+export const normalizeText = (text: string): string => {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+};
+
 export const guestService = {
   getGuests: async (): Promise<Guest[]> => {
     const { data, error } = await supabase
@@ -102,21 +109,24 @@ export const guestService = {
   },
 
   searchGuests: async (query: string): Promise<Guest[]> => {
-    const normalizedQuery = query.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    
-    // Using ilike for search. Note: Supabase/Postgres search can be complex with normalized names,
-    // but for now we'll do a simple case-insensitive match on name and family.
     const { data, error } = await supabase
       .from('guest_list')
-      .select('*')
-      .or(`name.ilike.%${query}%,family.ilike.%${query}%`);
+      .select('*');
 
     if (error) {
       console.error('Error searching guests:', error);
       return [];
     }
 
-    return data.map(g => ({
+    const normalizedQuery = normalizeText(query);
+
+    const filtered = data.filter(g => {
+      const normalizedName = normalizeText(g.name || "");
+      const normalizedFamily = normalizeText(g.family || "");
+      return normalizedName.includes(normalizedQuery) || normalizedFamily.includes(normalizedQuery);
+    });
+
+    return filtered.map(g => ({
       id: g.id,
       name: g.name,
       family: g.family,
@@ -127,3 +137,4 @@ export const guestService = {
     }));
   }
 };
+

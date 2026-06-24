@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
 import { Users, Plus, Trash2, CheckCircle, XCircle, Search, LogOut, FileUp, Pencil, CreditCard, DollarSign, TrendingUp, MessageCircle, ExternalLink, Heart } from "lucide-react";
-import { guestService, Guest } from "../services/guestService";
+import { guestService, Guest, normalizeText } from "../services/guestService";
 import { messageService, WeddingMessage } from "../services/messageService";
 import { supabase } from "../services/supabase";
 import * as XLSX from "xlsx";
@@ -191,8 +191,8 @@ export function Admin() {
   };
 
   const filteredGuests = guests.filter(g =>
-    g.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    g.family.toLowerCase().includes(searchQuery.toLowerCase())
+    normalizeText(g.name).includes(normalizeText(searchQuery)) ||
+    normalizeText(g.family || "").includes(normalizeText(searchQuery))
   );
 
   const totalPages = Math.ceil(filteredGuests.length / ITEMS_PER_PAGE);

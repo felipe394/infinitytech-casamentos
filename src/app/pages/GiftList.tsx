@@ -4,6 +4,7 @@ import { Gift, Heart, Check, ExternalLink, Search, X, Loader2, ShoppingCart, Tra
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PaymentBrick } from "../components/PaymentBrick";
 import { messageService } from "../services/messageService";
+import { normalizeText } from "../services/guestService";
 
 // Import local assets for production compatibility
 import cafeteiraImg from "../../assets/cafeteira.png";
@@ -344,7 +345,7 @@ export function GiftList() {
 
   const filteredGifts = gifts.filter((gift) => {
     const matchesCategory = selectedCategory === "todos" || gift.category === selectedCategory;
-    const matchesSearch = gift.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = normalizeText(gift.name).includes(normalizeText(searchTerm));
     return matchesCategory && matchesSearch;
   }).sort((a, b) => a.price - b.price);
 
