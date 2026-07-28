@@ -480,7 +480,7 @@ export function GiftList() {
                   disabled={cart.length === 0}
                   className="w-full py-4 bg-wedding-pink hover:bg-wedding-pink disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-2xl font-bold shadow-lg shadow-rose-200 transition-all flex items-center justify-center gap-3 active:scale-95"
                 >
-                  Continuar Compra
+                  Encerrar Compra
                   <Check className="w-5 h-5" />
                 </button>
                 <button
@@ -684,25 +684,23 @@ export function GiftList() {
             className="bg-wedding-pink text-white rounded-3xl p-8 md:p-12 text-center shadow-2xl"
           >
             <h2 className="text-3xl md:text-4xl font-serif mb-6">Prefere nos ajudar através do PIX? 💰</h2>
-            
+
             <div className="flex flex-wrap justify-center gap-2 mb-6">
               <button
                 onClick={() => setPixQrType('camera')}
-                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${
-                  pixQrType === 'camera'
+                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${pixQrType === 'camera'
                     ? 'bg-white text-wedding-pink shadow-md scale-105'
                     : 'bg-white/20 text-white hover:bg-white/30'
-                }`}
+                  }`}
               >
                 📲 Câmera do Celular (Abre Bancos)
               </button>
               <button
                 onClick={() => setPixQrType('bank')}
-                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${
-                  pixQrType === 'bank'
+                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${pixQrType === 'bank'
                     ? 'bg-white text-wedding-pink shadow-md scale-105'
                     : 'bg-white/20 text-white hover:bg-white/30'
-                }`}
+                  }`}
               >
                 🏦 Leitura no App do Banco
               </button>
@@ -837,21 +835,19 @@ export function GiftList() {
                       <div className="flex justify-center gap-2 mb-4">
                         <button
                           onClick={() => setPixQrType('camera')}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                            pixQrType === 'camera'
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${pixQrType === 'camera'
                               ? 'bg-wedding-pink text-white shadow-sm'
                               : 'bg-rose-100/60 text-wedding-pink hover:bg-rose-100'
-                          }`}
+                            }`}
                         >
                           📲 Câmera (Abre Bancos)
                         </button>
                         <button
                           onClick={() => setPixQrType('bank')}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                            pixQrType === 'bank'
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${pixQrType === 'bank'
                               ? 'bg-wedding-pink text-white shadow-sm'
                               : 'bg-rose-100/60 text-wedding-pink hover:bg-rose-100'
-                          }`}
+                            }`}
                         >
                           🏦 App do Banco
                         </button>
