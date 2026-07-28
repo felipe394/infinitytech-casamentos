@@ -11,6 +11,7 @@ import { Admin } from "./pages/Admin";
 import { NotFound } from "./pages/NotFound";
 import { ForgotPassword } from "./pages/ForgotPassword";
 import { ResetPassword } from "./pages/ResetPassword";
+import { PixRedirect } from "./pages/PixRedirect";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: "admin", Component: Admin },
       { path: "esqueci-senha", Component: ForgotPassword },
       { path: "reset-senha", Component: ResetPassword },
+      { path: "pix", Component: PixRedirect },
       { path: "*", Component: NotFound },
     ],
   },

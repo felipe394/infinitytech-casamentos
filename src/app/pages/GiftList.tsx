@@ -13,6 +13,7 @@ import toalhasImg from "../../assets/jogodetoalhas.png";
 import potesImg from "../../assets/jogodepotes.png";
 import lixeiraImg from "../../assets/lixeira.png";
 import pixQrImg from "../../assets/pix-qr.jpeg";
+import pixLinkQrImg from "../../assets/pix-link-qr.png";
 import mia1Img from "../../assets/Mia1.png";
 import mia2Img from "../../assets/mia2.png";
 import praiaImg from "../../assets/praia.png";
@@ -22,6 +23,7 @@ import jogoPorcelanaImg from "../../assets/jogo_porcelana.png";
 import toalhasPremiumImg from "../../assets/toalhas_premium.png";
 import airfryerImg from "../../assets/airfryer.png";
 import corteImg from "../../assets/corte.png";
+import sanduicheiraImg from "../../assets/sanduicheira.png";
 
 interface GiftItem {
   id: number;
@@ -47,6 +49,7 @@ export function GiftList() {
   const [senderName, setSenderName] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [paymentTab, setPaymentTab] = useState<'pix' | 'card'>('pix');
+  const [pixQrType, setPixQrType] = useState<'camera' | 'bank'>('camera');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -190,10 +193,10 @@ export function GiftList() {
     },
     {
       id: 16,
-      name: "Tábua de Corte Artesanal",
+      name: "Sanduicheira Elétrica",
       category: "mesa",
       price: 156.22,
-      image: corteImg,
+      image: sanduicheiraImg,
       available: true,
     },
     {
@@ -681,20 +684,41 @@ export function GiftList() {
             className="bg-wedding-pink text-white rounded-3xl p-8 md:p-12 text-center shadow-2xl"
           >
             <h2 className="text-3xl md:text-4xl font-serif mb-6">Prefere nos ajudar através do PIX? 💰</h2>
-            <p className="text-lg mb-8 opacity-90">
-              Escaneie o QR Code abaixo para contribuir diretamente.
+            
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              <button
+                onClick={() => setPixQrType('camera')}
+                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${
+                  pixQrType === 'camera'
+                    ? 'bg-white text-wedding-pink shadow-md scale-105'
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                }`}
+              >
+                📲 Câmera do Celular (Abre Bancos)
+              </button>
+              <button
+                onClick={() => setPixQrType('bank')}
+                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${
+                  pixQrType === 'bank'
+                    ? 'bg-white text-wedding-pink shadow-md scale-105'
+                    : 'bg-white/20 text-white hover:bg-white/30'
+                }`}
+              >
+                🏦 Leitura no App do Banco
+              </button>
+            </div>
+
+            <p className="text-sm md:text-base mb-6 opacity-90 font-medium max-w-lg mx-auto">
+              {pixQrType === 'camera'
+                ? "Aponte a câmera do celular para o QR Code abaixo para abrir a página do PIX, copiar a chave e abrir seu aplicativo de banco!"
+                : "Abra a opção PIX no aplicativo do seu banco e escaneie o QR Code abaixo."}
             </p>
 
-            <div className="bg-white rounded-2xl p-4 w-48 h-48 mx-auto mb-8 shadow-inner flex items-center justify-center">
+            <div className="bg-white rounded-2xl p-4 w-52 h-52 mx-auto mb-8 shadow-inner flex items-center justify-center">
               <img
-                src={pixQrImg}
+                src={pixQrType === 'camera' ? pixLinkQrImg : pixQrImg}
                 alt="PIX QR Code"
                 className="w-full h-full object-contain"
-                onError={(e) => {
-                  // Fallback if image not found
-                  e.currentTarget.style.display = 'none';
-                  e.currentTarget.parentElement!.innerHTML = '<div class="text-wedding-pink font-bold text-xs p-2">Salve o QR Code em assets/pix-qr.png</div>';
-                }}
               />
             </div>
 
@@ -789,7 +813,7 @@ export function GiftList() {
                   <button
                     onClick={() => setPaymentTab('pix')}
                     className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all ${paymentTab === 'pix'
-                      ? 'bg-green-500 text-white shadow-lg shadow-green-200'
+                      ? 'bg-wedding-pink text-white shadow-lg shadow-rose-200'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                       }`}
                   >
@@ -809,25 +833,52 @@ export function GiftList() {
                 {/* PIX Tab */}
                 {paymentTab === 'pix' && (
                   <div className="text-center">
-                    <div className="bg-green-50 border border-green-200 rounded-2xl p-6 mb-4">
-                      <p className="text-green-700 font-bold mb-4">Escaneie o QR Code para pagar via PIX:</p>
+                    <div className="bg-rose-50/60 border border-rose-200 rounded-2xl p-6 mb-4">
+                      <div className="flex justify-center gap-2 mb-4">
+                        <button
+                          onClick={() => setPixQrType('camera')}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                            pixQrType === 'camera'
+                              ? 'bg-wedding-pink text-white shadow-sm'
+                              : 'bg-rose-100/60 text-wedding-pink hover:bg-rose-100'
+                          }`}
+                        >
+                          📲 Câmera (Abre Bancos)
+                        </button>
+                        <button
+                          onClick={() => setPixQrType('bank')}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                            pixQrType === 'bank'
+                              ? 'bg-wedding-pink text-white shadow-sm'
+                              : 'bg-rose-100/60 text-wedding-pink hover:bg-rose-100'
+                          }`}
+                        >
+                          🏦 App do Banco
+                        </button>
+                      </div>
+
+                      <p className="text-wedding-pink font-bold text-sm mb-4">
+                        {pixQrType === 'camera'
+                          ? "Escaneie com a câmera do celular para copiar a chave e escolher seu banco:"
+                          : "Abra o aplicativo do seu banco e escaneie o QR Code para pagar via PIX:"}
+                      </p>
                       <div className="bg-white rounded-2xl p-4 w-52 h-52 mx-auto mb-4 shadow-inner">
                         <img
-                          src={pixQrImg}
+                          src={pixQrType === 'camera' ? pixLinkQrImg : pixQrImg}
                           alt="PIX QR Code"
                           className="w-full h-full object-contain"
                         />
                       </div>
-                      <p className="text-sm text-green-600 mb-4">Ou copie o código PIX abaixo:</p>
-                      <div className="bg-white border border-green-200 rounded-xl p-3 mb-4">
-                        <p className="text-xs text-gray-500 font-mono break-all select-all">11945831201</p>
+                      <p className="text-sm text-wedding-pink font-medium mb-4">Ou copie o código PIX abaixo:</p>
+                      <div className="bg-white border border-rose-200 rounded-xl p-3 mb-4">
+                        <p className="text-xs text-gray-600 font-mono break-all select-all">11945831201</p>
                       </div>
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText("11945831201");
                           alert("Chave PIX copiada!");
                         }}
-                        className="w-full px-6 py-4 bg-green-500 hover:bg-green-600 text-white rounded-2xl font-bold shadow-lg shadow-green-200 transition-all"
+                        className="w-full px-6 py-4 bg-wedding-pink hover:bg-wedding-pink/90 text-white rounded-2xl font-bold shadow-lg shadow-rose-200 transition-all"
                       >
                         Copiar Chave PIX
                       </button>

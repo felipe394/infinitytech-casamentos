@@ -23,15 +23,40 @@ export function RSVP() {
     }
   }, [isSubmitted, navigate]);
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const results = await guestService.searchGuests(searchQuery);
+  const executeSearch = async (query: string) => {
+    const trimmed = query.trim();
+    if (!trimmed) {
+      setSearchResults([]);
+      setError("");
+      return;
+    }
+
+    const results = await guestService.searchGuests(trimmed);
     setSearchResults(results);
     if (results.length === 0) {
       setError("Não encontramos convite para este nome. Por favor, verifique a grafia ou tente o nome da família.");
     } else {
       setError("");
     }
+  };
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      setError("");
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      executeSearch(searchQuery);
+    }, 250);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    executeSearch(searchQuery);
   };
 
   const handleSelect = (guest: Guest) => {
@@ -156,29 +181,40 @@ export function RSVP() {
             className="bg-white rounded-3xl shadow-2xl p-8 md:p-12"
           >
             <div className="text-center mb-8">
-              <span className="text-wedding-pink font-medium mb-2 block">Olá, {selectedGuest.name}!</span>
-              <h2 className="text-3xl font-serif text-gray-900">Confirmar para {selectedGuest.family}?</h2>
+              <span className="text-wedding-pink font-medium text-lg mb-1 block">Olá, {selectedGuest.name}!</span>
+              <h2 className="text-3xl font-serif text-gray-900 mb-2">Confirmação de Presença</h2>
+              {selectedGuest.family && selectedGuest.family !== selectedGuest.name && (
+                <span className="inline-block bg-rose-50 text-wedding-pink text-xs px-3 py-1 rounded-full font-medium mt-1">
+                  {selectedGuest.family}
+                </span>
+              )}
             </div>
 
             <div className="space-y-8">
               <div className="text-center">
-                <label className="block text-gray-600 mb-4">Quantas pessoas virão no total?</label>
+                <label className="block text-gray-600 mb-4 font-medium">Quantas pessoas virão no total?</label>
                 <div className="flex items-center justify-center gap-6">
                   <button
                     onClick={() => setConfirmedCount(Math.max(1, confirmedCount - 1))}
-                    className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-2xl hover:bg-gray-50 bg-white"
+                    className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-2xl hover:bg-gray-50 bg-white transition-colors"
                   >
                     -
                   </button>
-                  <span className="text-4xl font-serif w-12">{confirmedCount}</span>
-                  <button
-                    onClick={() => setConfirmedCount(Math.min(selectedGuest.totalGuests, confirmedCount + 1))}
-                    className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-2xl hover:bg-gray-50 bg-white"
-                  >
-                    +
-                  </button>
+                  <span className="text-4xl font-serif min-w-[48px] text-center">{confirmedCount}</span>
+                  {confirmedCount < selectedGuest.totalGuests ? (
+                    <button
+                      onClick={() => setConfirmedCount(Math.min(selectedGuest.totalGuests, confirmedCount + 1))}
+                      className="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center text-2xl hover:bg-gray-50 bg-white transition-colors"
+                    >
+                      +
+                    </button>
+                  ) : (
+                    <div className="w-12 h-12" />
+                  )}
                 </div>
-                <p className="mt-4 text-sm text-gray-400">Limite de {selectedGuest.totalGuests} pessoas para este convite</p>
+                <p className="mt-4 text-sm text-red-600 font-semibold">
+                  Limite de {selectedGuest.totalGuests} pessoa{selectedGuest.totalGuests !== 1 ? 's' : ''} para este convite
+                </p>
               </div>
 
               <div className="flex flex-col md:flex-row gap-4">
