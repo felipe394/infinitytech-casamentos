@@ -94,7 +94,7 @@ export function PixRedirect() {
             <Heart className="w-8 h-8 text-wedding-pink fill-wedding-pink" />
           </div>
           <h1 className="text-2xl font-serif text-gray-900">Presente via PIX</h1>
-          <p className="text-xs text-gray-500 mt-1">Henrique & Luiza</p>
+
         </div>
 
         {/* Copy Status Badge */}
