@@ -7,18 +7,17 @@ interface BankOption {
   color: string;
   textColor: string;
   scheme: string;
-  fallbackScheme?: string;
 }
 
 const BANKS: BankOption[] = [
-  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nubank://", fallbackScheme: "com.nu.production://" },
+  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nubank://" },
   { name: "Banco Inter", color: "bg-[#FF7A00]", textColor: "text-white", scheme: "bancointer://" },
-  { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "itaucode://", fallbackScheme: "itau://" },
+  { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "itaucode://" },
   { name: "Bradesco", color: "bg-[#CC092F]", textColor: "text-white", scheme: "bradesco://" },
-  { name: "Santander", color: "bg-[#EC0000]", textColor: "text-white", scheme: "santander://", fallbackScheme: "santanderway://" },
+  { name: "Santander", color: "bg-[#EC0000]", textColor: "text-white", scheme: "santander://" },
   { name: "C6 Bank", color: "bg-[#181818]", textColor: "text-white", scheme: "c6bank://" },
-  { name: "Banco do Brasil", color: "bg-[#FCDB00]", textColor: "text-blue-900", scheme: "bancodobrasil://", fallbackScheme: "bb://" },
-  { name: "Caixa", color: "bg-[#005CA9]", textColor: "text-white", scheme: "caixa://", fallbackScheme: "caixaef://" },
+  { name: "Banco do Brasil", color: "bg-[#FCDB00]", textColor: "text-blue-900", scheme: "bancodobrasil://" },
+  { name: "Caixa", color: "bg-[#005CA9]", textColor: "text-white", scheme: "caixa://" },
   { name: "PicPay", color: "bg-[#11C76F]", textColor: "text-white", scheme: "picpay://" },
   { name: "Mercado Pago", color: "bg-[#009EE3]", textColor: "text-white", scheme: "mercadopago://" },
 ];
@@ -66,19 +65,12 @@ export function PixRedirect() {
 
     setActiveBankAlert(bank.name);
 
-    // 2. Aciona o esquema nativo do app sem delay de promise
+    // 2. Aciona o esquema nativo do app
     const link = document.createElement("a");
     link.href = bank.scheme;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
-    // 3. Fallback para esquema secundário se existir (ex: com.nu.production ou caixaef)
-    if (bank.fallbackScheme) {
-      setTimeout(() => {
-        window.location.href = bank.fallbackScheme!;
-      }, 400);
-    }
 
     setTimeout(() => {
       setActiveBankAlert(null);
