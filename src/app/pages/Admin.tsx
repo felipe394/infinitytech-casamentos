@@ -39,6 +39,14 @@ export function Admin() {
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
 
+  // WhatsApp tab filters
+  const [whatsappSearch, setWhatsappSearch] = useState("");
+  const [whatsappStatusFilter, setWhatsappStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'declined'>('all');
+  const [whatsappPage, setWhatsappPage] = useState(1);
+
+  // Convidados tab status filter
+  const [guestStatusFilter, setGuestStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'declined'>('all');
+
   const handleTabChange = (tab: 'guests' | 'payments' | 'messages' | 'whatsapp') => {
     setActiveTab(tab);
     setCurrentPage(1);
@@ -190,10 +198,12 @@ export function Admin() {
     reader.readAsBinaryString(file);
   };
 
-  const filteredGuests = guests.filter(g =>
-    normalizeText(g.name).includes(normalizeText(searchQuery)) ||
-    normalizeText(g.family || "").includes(normalizeText(searchQuery))
-  );
+  const filteredGuests = guests.filter(g => {
+    const matchesSearch = normalizeText(g.name).includes(normalizeText(searchQuery)) ||
+      normalizeText(g.family || "").includes(normalizeText(searchQuery));
+    const matchesStatus = guestStatusFilter === 'all' || g.status === guestStatusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   const totalPages = Math.ceil(filteredGuests.length / ITEMS_PER_PAGE);
   const paginatedGuests = filteredGuests.slice(
@@ -205,7 +215,24 @@ export function Admin() {
     total: guests.reduce((acc, g) => acc + g.totalGuests, 0),
     confirmed: guests.reduce((acc, g) => acc + (g.status === 'confirmed' ? g.confirmedCount : 0), 0),
     pending: guests.reduce((acc, g) => acc + (g.status === 'pending' ? g.totalGuests : 0), 0),
+    declined: guests.reduce((acc, g) => acc + (g.status === 'declined' ? g.totalGuests : 0), 0),
   };
+
+  // WhatsApp tab filtered guests
+  const whatsappGuests = guests.filter(g => {
+    if (!g.phone) return false;
+    const matchesSearch = !whatsappSearch.trim() || 
+      normalizeText(g.name).includes(normalizeText(whatsappSearch)) ||
+      normalizeText(g.family || "").includes(normalizeText(whatsappSearch));
+    const matchesStatus = whatsappStatusFilter === 'all' || g.status === whatsappStatusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const whatsappTotalPages = Math.ceil(whatsappGuests.length / ITEMS_PER_PAGE);
+  const paginatedWhatsappGuests = whatsappGuests.slice(
+    (whatsappPage - 1) * ITEMS_PER_PAGE,
+    whatsappPage * ITEMS_PER_PAGE
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20">
@@ -315,20 +342,64 @@ export function Admin() {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-3 mb-6">
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Total</p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+              <button
+                onClick={() => { setGuestStatusFilter(guestStatusFilter === 'all' ? 'all' : 'all'); setGuestStatusFilter('all'); setCurrentPage(1); }}
+                className={`bg-white p-4 rounded-2xl shadow-sm border transition-all text-left group hover:shadow-md hover:scale-[1.02] ${
+                  guestStatusFilter === 'all' ? 'border-gray-900 ring-2 ring-gray-900/10' : 'border-gray-100 hover:border-gray-300'
+                }`}
+              >
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1 group-hover:text-gray-600 transition-colors">Total</p>
                 <p className="text-2xl font-serif text-gray-900">{stats.total}</p>
-              </div>
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Confirmados</p>
+              </button>
+              <button
+                onClick={() => { setGuestStatusFilter(guestStatusFilter === 'confirmed' ? 'all' : 'confirmed'); setCurrentPage(1); }}
+                className={`bg-white p-4 rounded-2xl shadow-sm border transition-all text-left group hover:shadow-md hover:scale-[1.02] ${
+                  guestStatusFilter === 'confirmed' ? 'border-green-500 ring-2 ring-green-500/10 bg-green-50/50' : 'border-gray-100 hover:border-green-300'
+                }`}
+              >
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1 group-hover:text-green-600 transition-colors">Confirmados</p>
                 <p className="text-2xl font-serif text-green-600">{stats.confirmed}</p>
-              </div>
-              <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
-                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Pendentes</p>
-                <p className="text-2xl font-serif text-rose-500">{stats.total - stats.confirmed}</p>
-              </div>
+              </button>
+              <button
+                onClick={() => { setGuestStatusFilter(guestStatusFilter === 'pending' ? 'all' : 'pending'); setCurrentPage(1); }}
+                className={`bg-white p-4 rounded-2xl shadow-sm border transition-all text-left group hover:shadow-md hover:scale-[1.02] ${
+                  guestStatusFilter === 'pending' ? 'border-amber-500 ring-2 ring-amber-500/10 bg-amber-50/50' : 'border-gray-100 hover:border-amber-300'
+                }`}
+              >
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1 group-hover:text-amber-600 transition-colors">Pendentes</p>
+                <p className="text-2xl font-serif text-amber-500">{stats.pending}</p>
+              </button>
+              <button
+                onClick={() => { setGuestStatusFilter(guestStatusFilter === 'declined' ? 'all' : 'declined'); setCurrentPage(1); }}
+                className={`bg-white p-4 rounded-2xl shadow-sm border transition-all text-left group hover:shadow-md hover:scale-[1.02] ${
+                  guestStatusFilter === 'declined' ? 'border-rose-500 ring-2 ring-rose-500/10 bg-rose-50/50' : 'border-gray-100 hover:border-rose-300'
+                }`}
+              >
+                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1 group-hover:text-rose-600 transition-colors">Não Virá</p>
+                <p className="text-2xl font-serif text-rose-500">{stats.declined}</p>
+              </button>
             </div>
+
+            {/* Active filter indicator */}
+            {guestStatusFilter !== 'all' && (
+              <div className="flex items-center gap-2 mb-4 px-1">
+                <span className="text-sm text-gray-500">Filtrando por:</span>
+                <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${
+                  guestStatusFilter === 'confirmed' ? 'bg-green-100 text-green-700' :
+                  guestStatusFilter === 'pending' ? 'bg-amber-100 text-amber-700' :
+                  'bg-rose-100 text-rose-700'
+                }`}>
+                  {guestStatusFilter === 'confirmed' ? 'Confirmados' : guestStatusFilter === 'pending' ? 'Pendentes' : 'Não Virá'}
+                </span>
+                <button
+                  onClick={() => { setGuestStatusFilter('all'); setCurrentPage(1); }}
+                  className="text-xs text-gray-400 hover:text-gray-600 underline transition-colors"
+                >
+                  Limpar filtro
+                </button>
+              </div>
+            )}
 
             {/* Search */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-3 mb-4">
@@ -865,6 +936,45 @@ export function Admin() {
                   </div>
                 </div>
 
+                {/* WhatsApp Filters */}
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col sm:flex-row gap-3">
+                  {/* Search by name */}
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Buscar por nome ou família..."
+                      value={whatsappSearch}
+                      onChange={(e) => { setWhatsappSearch(e.target.value); setWhatsappPage(1); }}
+                      className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:ring-2 focus:ring-green-500 transition-all text-sm"
+                    />
+                  </div>
+                  {/* Filter by status */}
+                  <div className="flex gap-2 flex-wrap sm:flex-nowrap">
+                    {[
+                      { value: 'all' as const, label: 'Todos', color: 'gray' },
+                      { value: 'pending' as const, label: 'Pendentes', color: 'amber' },
+                      { value: 'confirmed' as const, label: 'Confirmados', color: 'green' },
+                      { value: 'declined' as const, label: 'Recusados', color: 'rose' },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => { setWhatsappStatusFilter(opt.value); setWhatsappPage(1); }}
+                        className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
+                          whatsappStatusFilter === opt.value
+                            ? opt.color === 'gray' ? 'bg-gray-900 text-white shadow-md'
+                            : opt.color === 'amber' ? 'bg-amber-500 text-white shadow-md shadow-amber-200'
+                            : opt.color === 'green' ? 'bg-green-500 text-white shadow-md shadow-green-200'
+                            : 'bg-rose-500 text-white shadow-md shadow-rose-200'
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
               <div className="overflow-x-auto">
                 <table className="w-full text-left">
@@ -877,14 +987,16 @@ export function Admin() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
-                    {guests.filter(g => g.phone).length === 0 ? (
+                    {whatsappGuests.length === 0 ? (
                       <tr>
                         <td colSpan={4} className="px-6 py-12 text-center text-gray-400">
-                          Nenhum convidado com telefone cadastrado. Adicione telefones na aba "Convidados".
+                          {guests.filter(g => g.phone).length === 0
+                            ? 'Nenhum convidado com telefone cadastrado. Adicione telefones na aba "Convidados".'
+                            : 'Nenhum convidado encontrado com os filtros selecionados.'}
                         </td>
                       </tr>
                     ) : (
-                      guests.filter(g => g.phone).map((guest) => (
+                      paginatedWhatsappGuests.map((guest) => (
                         <tr key={guest.id} className="hover:bg-gray-50/50 transition-colors">
                           <td className="px-6 py-4">
                             <div className="font-medium text-gray-900">{guest.name}</div>
@@ -944,6 +1056,96 @@ export function Admin() {
                 </table>
               </div>
             </div>
+
+            {/* WhatsApp Pagination */}
+            {whatsappTotalPages > 1 && (
+              <div className="flex items-center justify-between border-t border-gray-100 bg-white px-4 py-3 sm:px-6 mt-6 rounded-3xl shadow-sm border border-gray-100">
+                <div className="flex flex-1 justify-between sm:hidden">
+                  <button
+                    disabled={whatsappPage === 1}
+                    onClick={() => { setWhatsappPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="relative inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                  >
+                    Anterior
+                  </button>
+                  <span className="text-sm text-gray-700 flex items-center font-medium">
+                    Pág. {whatsappPage} de {whatsappTotalPages}
+                  </span>
+                  <button
+                    disabled={whatsappPage === whatsappTotalPages}
+                    onClick={() => { setWhatsappPage(prev => Math.min(prev + 1, whatsappTotalPages)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                    className="relative ml-3 inline-flex items-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                  >
+                    Próxima
+                  </button>
+                </div>
+                <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm text-gray-700">
+                      Mostrando <span className="font-semibold">{(whatsappPage - 1) * ITEMS_PER_PAGE + 1}</span> a{' '}
+                      <span className="font-semibold">
+                        {Math.min(whatsappPage * ITEMS_PER_PAGE, whatsappGuests.length)}
+                      </span>{' '}
+                      de <span className="font-semibold">{whatsappGuests.length}</span> convidados
+                    </p>
+                  </div>
+                  <div>
+                    <nav className="isolate inline-flex -space-x-px rounded-md gap-1" aria-label="Pagination">
+                      <button
+                        disabled={whatsappPage === 1}
+                        onClick={() => { setWhatsappPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="relative inline-flex items-center rounded-xl px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 border border-gray-200 disabled:opacity-50 transition-colors"
+                      >
+                        &larr; Anterior
+                      </button>
+                      
+                      {Array.from({ length: whatsappTotalPages }, (_, i) => i + 1).map((page) => {
+                        if (
+                          page === 1 ||
+                          page === whatsappTotalPages ||
+                          Math.abs(page - whatsappPage) <= 1
+                        ) {
+                          return (
+                            <button
+                              key={page}
+                              onClick={() => { setWhatsappPage(page); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                              className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold rounded-xl transition-all ${
+                                whatsappPage === page
+                                  ? 'z-10 bg-green-500 text-white shadow-md shadow-green-200'
+                                  : 'text-gray-900 border border-gray-200 hover:bg-gray-50'
+                              }`}
+                            >
+                              {page}
+                            </button>
+                          );
+                        } else if (
+                          (page === 2 && whatsappPage > 3) ||
+                          (page === whatsappTotalPages - 1 && whatsappPage < whatsappTotalPages - 2)
+                        ) {
+                          return (
+                            <span
+                              key={page}
+                              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700"
+                            >
+                              ...
+                            </span>
+                          );
+                        }
+                        return null;
+                      })}
+
+                      <button
+                        disabled={whatsappPage === whatsappTotalPages}
+                        onClick={() => { setWhatsappPage(prev => Math.min(prev + 1, whatsappTotalPages)); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                        className="relative inline-flex items-center rounded-xl px-3 py-2 text-sm text-gray-500 hover:bg-gray-50 border border-gray-200 disabled:opacity-50 transition-colors"
+                      >
+                        Próxima &rarr;
+                      </button>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
 
