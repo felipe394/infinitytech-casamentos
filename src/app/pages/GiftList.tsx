@@ -24,6 +24,60 @@ import toalhasPremiumImg from "../../assets/toalhas_premium.png";
 import airfryerImg from "../../assets/airfryer.png";
 import corteImg from "../../assets/corte.png";
 import sanduicheiraImg from "../../assets/sanduicheira.png";
+import img1 from "../../assets/1.jpg";
+import img2 from "../../assets/2.jpg";
+import img3 from "../../assets/3.jpg";
+import img4 from "../../assets/4.jpg";
+import img5 from "../../assets/5.jpg";
+import img6 from "../../assets/6.jpg";
+import img7 from "../../assets/7.jpg";
+import img8 from "../../assets/8.jpg";
+import img9 from "../../assets/9.jpg";
+import img10 from "../../assets/10.jpg";
+import img11 from "../../assets/11.jpg";
+import img12 from "../../assets/12.jpg";
+import img13 from "../../assets/13.jpg";
+import img14 from "../../assets/14.jpg";
+import img15 from "../../assets/15.jpg";
+import img16 from "../../assets/16.jpg";
+import img17 from "../../assets/17.jpg";
+import img18 from "../../assets/18.jpg";
+import img19 from "../../assets/19.jpg";
+import img20 from "../../assets/20.jpg";
+import img21 from "../../assets/21.jpg";
+import img22 from "../../assets/22.jpg";
+import img23 from "../../assets/23.jpg";
+import img24 from "../../assets/24.jpg";
+import img25 from "../../assets/25.jpg";
+import img26 from "../../assets/26.jpg";
+import img27 from "../../assets/27.jpg";
+import img28 from "../../assets/28.jpg";
+import img29 from "../../assets/29.jpg";
+import img30 from "../../assets/30.jpg";
+import img31 from "../../assets/31.jpg";
+import img32 from "../../assets/32.jpg";
+import img33 from "../../assets/33.jpg";
+import img34 from "../../assets/34.jpg";
+import img35 from "../../assets/35.jpg";
+import img36 from "../../assets/36.jpg";
+import img37 from "../../assets/37.jpg";
+import img38 from "../../assets/38.jpg";
+import img39 from "../../assets/39.jpg";
+import img40 from "../../assets/40.jpg";
+import img41 from "../../assets/41.jpg";
+import img42 from "../../assets/42.jpg";
+import img43 from "../../assets/43.jpg";
+import miaImg1 from "../../assets/Mia1.jpeg";
+import miaImg2 from "../../assets/Mia2.jpeg";
+import miaImg3 from "../../assets/Mia3.jpeg";
+import miaImg4 from "../../assets/Mia4.jpeg";
+import miaImg5 from "../../assets/Mia5.jpeg";
+import miaImg6 from "../../assets/Mia6.jpeg";
+import miaImg7 from "../../assets/Mia7.jpeg";
+import miaImg8 from "../../assets/Mia8.jpeg";
+import miaImg9 from "../../assets/Mia9.jpeg";
+
+
 
 interface GiftItem {
   id: number;
@@ -64,246 +118,170 @@ export function GiftList() {
 
   const categories = [
     { id: "todos", label: "Todos" },
-    { id: "cama", label: "Cama" },
-    { id: "mesa", label: "Mesa" },
-    { id: "banho", label: "Banho" },
+    { id: "casa_decoracao", label: "Casa & Decoração" },
+    { id: "cozinha", label: "Cozinha" },
+    { id: "eletrodomesticos", label: "Eletrodomésticos" },
+    { id: "moveis", label: "Móveis" },
     { id: "viagem", label: "Lua de Mel" },
+    { id: "mia", label: "Ajude a Mia!" },
   ];
 
   const gifts: GiftItem[] = [
+    
     {
-      id: 1,
-      name: "Jogo de Panelas Premium",
-      category: "mesa",
-      price: 885.23,
-      image: "https://images.unsplash.com/photo-1556909114-44e3e70034e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      id: 30,
+      name: "Kit Banheiro",
+      category: "casa_decoracao",
+      price: 114.71,
+      image: img1,
       available: true,
     },
     {
-      id: 2,
-      name: "Jogo de Cama King Premium",
-      category: "cama",
-      price: 676.94,
-      image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      id: 31,
+      name: "Kit Toalhas Premium",
+      category: "casa_decoracao",
+      price: 198.91,
+      image: img2,
       available: true,
     },
     {
-      id: 3,
-      name: "Cafeteira Espresso",
-      category: "mesa",
-      price: 1249.74,
-      image: cafeteiraImg,
+      id: 32,
+      name: "Jogo de Lençóis",
+      category: "casa_decoracao",
+      price: 241.00,
+      image: img3,
       available: true,
     },
     {
-      id: 4,
-      name: "Móveis Planejados",
-      category: "cama",
-      price: 2603.62,
-      image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      id: 33,
+      name: "Cobre- Leito Premium",
+      category: "casa_decoracao",
+      price: 304.15,
+      image: img4,
       available: true,
     },
     {
-      id: 5,
-      name: "Kit de Toalhas Premium",
-      category: "banho",
-      price: 468.65,
-      image: toalhasPremiumImg,
+      id: 34,
+      name: "Travesseiros",
+      category: "casa_decoracao",
+      price: 346.24,
+      image: img5,
       available: true,
     },
     {
-      id: 6,
-      name: "Mixer Planetário",
-      category: "mesa",
-      price: 1020.62,
-      image: mixerImg,
+      id: 35,
+      name: "Almofadas e Mantas",
+      category: "casa_decoracao",
+      price: 493.58,
+      image: img6,
       available: true,
     },
     {
-      id: 7,
-      name: "Contribuição Lua de Mel - Passeios",
-      category: "viagem",
-      price: 2082.90,
-      image: passeiosImg,
+      id: 36,
+      name: "Tapete",
+      category: "casa_decoracao",
+      price: 577.77,
+      image: img7,
       available: true,
     },
     {
-      id: 8,
-      name: "Jogo de Jantar Porcelana (42 peças)",
-      category: "mesa",
-      price: 781.09,
-      image: jogoPorcelanaImg,
+      id: 37,
+      name: "Kit Mesa Posta",
+      category: "casa_decoracao",
+      price: 725.11,
+      image: img8,
       available: true,
     },
     {
-      id: 9,
-      name: "Edredom Premium King",
-      category: "cama",
-      price: 604.04,
-      image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
+      id: 38,
+      name: "Cobre Leito- Premium",
+      category: "casa_decoracao",
+      price: 946.12,
+      image: img9,
       available: true,
     },
     {
-      id: 10,
-      name: "Air Fryer Grande",
-      category: "mesa",
-      price: 708.19,
-      image: airfryerImg,
+      id: 39,
+      name: "Enxoval Completo",
+      category: "casa_decoracao",
+      price: 1788.04,
+      image: img10,
       available: true,
     },
-    {
-      id: 11,
-      name: "Contribuição Lua de Mel - Praia",
-      category: "viagem",
-      price: 1562.17,
-      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 12,
-      name: "Smart TV 55\"",
-      category: "cama",
-      price: 1874.61,
-      image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 13,
-      name: "Jogo de Toalhas de Banho",
-      category: "banho",
-      price: 104.15,
-      image: toalhasImg,
-      available: true,
-    },
-    {
-      id: 14,
-      name: "Kit Xícaras de Café",
-      category: "mesa",
-      price: 110.39,
-      image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 15,
-      name: "Vela Aromática Premium",
-      category: "banho",
-      price: 124.97,
-      image: "https://images.unsplash.com/photo-1603006905003-be475563bc59?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 16,
-      name: "Sanduicheira Elétrica",
-      category: "mesa",
-      price: 156.22,
-      image: sanduicheiraImg,
-      available: true,
-    },
-    {
-      id: 17,
-      name: "Liquidificador",
-      category: "mesa",
-      price: 291.61,
-      image: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 18,
-      name: "Jogo de Potes para Cozinha",
-      category: "mesa",
-      price: 128.09,
-      image: potesImg,
-      available: true,
-    },
-    {
-      id: 19,
-      name: "Lixeira para Banheiro",
-      category: "banho",
-      price: 115.60,
-      image: lixeiraImg,
-      available: true,
-    },
-    {
-      id: 20,
-      name: "Cooktop 4 Bocas",
-      category: "mesa",
-      price: 572.82,
-      image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 21,
-      name: "Micro-ondas",
-      category: "mesa",
-      price: 499.91,
-      image: "https://images.unsplash.com/photo-1574269909862-7e1d70bb8078?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 22,
-      name: "Lua de Mel: Jantar Romântico",
-      category: "viagem",
-      price: 262.50,
-      image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 23,
-      name: "Lua de Mel: Almoço a Dois",
-      category: "viagem",
-      price: 294.00,
-      image: "https://images.unsplash.com/photo-1544148103-0773bf10d330?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 24,
-      name: "Lua de Mel: Porçãozinha na Praia",
-      category: "viagem",
-      price: 187.50,
-      image: praiaImg,
-      available: true,
-    },
-    {
-      id: 25,
-      name: "Lua de Mel: Passeio no Mar",
-      category: "viagem",
-      price: 420.00,
-      image: "https://images.unsplash.com/photo-1534008897995-27a23e859048?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 28,
-      name: "Lua de Mel: Date Surpresa",
-      category: "viagem",
-      price: 350.00,
-      image: dateImg,
-      available: true,
-    },
-    {
-      id: 29,
-      name: "Lua de Mel: Passeio na Praia",
-      category: "viagem",
-      price: 250.00,
-      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800&q=80",
-      available: true,
-    },
-    {
-      id: 26,
-      name: "Gata Mia: Casinha",
-      category: "cama",
-      price: 157.50,
-      image: mia1Img,
-      available: true,
-    },
-    {
-      id: 27,
-      name: "Gata Mia: Ração Premium",
-      category: "mesa",
-      price: 105.00,
-      image: mia2Img,
-      available: true,
-    },
+    
 
+    
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+
+
+    { id: 40, name: "Utensílios de Silicone", category: "cozinha", price: 156.81, image: img11, available: true },
+    { id: 41, name: "Conjunto de Potes Herméticos", category: "cozinha", price: 283.10, image: img12, available: true },
+    { id: 42, name: "Jogo de Facas", category: "cozinha", price: 377.82, image: img13, available: true },
+    { id: 43, name: "Refratários", category: "cozinha", price: 451.48, image: img14, available: true },
+    { id: 44, name: "Kit Churrasco", category: "cozinha", price: 598.82, image: img15, available: true },
+    { id: 45, name: "Conjunto de Taças", category: "cozinha", price: 683.01, image: img16, available: true },
+    { id: 46, name: "Conjunto de Talheres", category: "cozinha", price: 819.83, image: img17, available: true },
+    { id: 47, name: "Aparelho de Jantar", category: "cozinha", price: 872.45, image: img18, available: true },
+    { id: 48, name: "Conjunto de Panelas Antiaderentes", category: "cozinha", price: 1356.56, image: img19, available: true },
+    { id: 49, name: "Cozinha Completa", category: "cozinha", price: 2103.77, image: img20, available: true },
+    { id: 50, name: "Liquidificador", category: "eletrodomesticos", price: 209.43, image: img21, available: true },
+    { id: 51, name: "Chaleira Eletrica", category: "eletrodomesticos", price: 272.57, image: img22, available: true },
+    { id: 52, name: "Torradeira", category: "eletrodomesticos", price: 335.72, image: img23, available: true },
+    { id: 53, name: "Cafeteira", category: "eletrodomesticos", price: 514.63, image: img24, available: true },
+    { id: 54, name: "Panela de Pressão Eletrica", category: "eletrodomesticos", price: 556.73, image: img25, available: true },
+    { id: 55, name: "Robô Aspirador", category: "eletrodomesticos", price: 672.49, image: img26, available: true },
+    { id: 56, name: "Depurador", category: "eletrodomesticos", price: 788.26, image: img27, available: true },
+    { id: 57, name: "Churrasqueira Eletrica", category: "eletrodomesticos", price: 882.97, image: img28, available: true },
+    { id: 58, name: "Batedeira", category: "eletrodomesticos", price: 1314.46, image: img29, available: true },
+    { id: 59, name: "Televisão", category: "eletrodomesticos", price: 2103.77, image: img30, available: true },
+
+    { id: 60, name: "Sapateira", category: "moveis", price: 377.82, image: img31, available: true },
+    { id: 61, name: "Aparador", category: "moveis", price: 472.53, image: img32, available: true },
+    { id: 62, name: "Penteadeira", category: "moveis", price: 609.35, image: img33, available: true },
+    { id: 63, name: "Poltrona", category: "moveis", price: 725.11, image: img34, available: true },
+    { id: 64, name: "Mesa de Jantar", category: "moveis", price: 1303.94, image: img35, available: true },
+    { id: 65, name: "Sofá", category: "moveis", price: 1461.80, image: img36, available: true },
+    { id: 66, name: "Cama", category: "moveis", price: 1766.99, image: img37, available: true },
+
+    { id: 67, name: "Porção na Praia", category: "viagem", price: 167.33, image: img38, available: true },
+    { id: 68, name: "Almoço Especial", category: "viagem", price: 272.57, image: img39, available: true },
+    { id: 69, name: "Jantar Romantico", category: "viagem", price: 493.58, image: img40, available: true },
+    { id: 70, name: "Passeio Diferente", category: "viagem", price: 556.73, image: img41, available: true },
+    { id: 71, name: "Date Surpresa", category: "viagem", price: 714.59, image: img42, available: true },
+    { id: 72, name: "Contribuição Especial", category: "viagem", price: 882.97, image: img43, available: true },
+
+    { id: 73, name: "Taças de Luxo para tomar agua da torneira", category: "mia", price: 104.19, image: miaImg1, available: true },
+    { id: 74, name: "Ração para a coitada não passar fome", category: "mia", price: 177.86, image: miaImg2, available: true },
+    { id: 75, name: "Dose de Paciência para aguentar os inquilinos", category: "mia", price: 83.14, image: miaImg3, available: true },
+    { id: 76, name: "Contribuição para o Home Office", category: "mia", price: 219.95, image: miaImg4, available: true },
+    { id: 77, name: "Transporte para visitar o Luke", category: "mia", price: 146.29, image: miaImg5, available: true },
+    { id: 78, name: "Contribuição para a decoração de fim de ano", category: "mia", price: 125.24, image: miaImg6, available: true },
+    { id: 79, name: "Cobertinha para o sono merecido", category: "mia", price: 114.71, image: miaImg7, available: true },
+    { id: 80, name: "Lookinho para ir na casa da vovó", category: "mia", price: 230.48, image: miaImg8, available: true },
+    { id: 81, name: "Uma noite sem os inquilinos", category: "mia", price: 251.53, image: miaImg9, available: true },
   ];
 
   const addToCart = (gift: GiftItem) => {
