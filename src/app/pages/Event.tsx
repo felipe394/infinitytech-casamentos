@@ -15,21 +15,18 @@ export function Event() {
 
   const schedule = [
     {
-      time: "9:45",
       title: "Cerimônia Religiosa",
       description: "Nossa união será celebrada com muito amor no próprio espaço La Corcelle.",
       icon: Church,
       location: VENUE_NAME,
     },
     {
-      time: "11:30",
       title: "Boas-vindas",
       description: "Momento de acolhida e celebração com nossos queridos convidados.",
       icon: Music,
       location: VENUE_NAME,
     },
     {
-      time: "13:00",
       title: "Almoço",
       description: "Uma tarde de muita alegria, gastronomia e celebração!",
       icon: Utensils,
@@ -40,11 +37,11 @@ export function Event() {
   const dresscode = [
     {
       title: "Traje Esporte Fino",
-      description: "Homens podem optar pelo traje social completo ou, para uma proposta igualmente sofisticada, camisa combinada com calça social. Já as mulheres podem escolher vestidos midi ou longos, além de composições elegantes com calças ou saias, valorizando sempre o estilo e a harmonia do look.",
+      description: "Homens: traje social completo ou uma combinação elegante de camisa, calça social e sapato.\n\nMulheres: vestidos midi ou longos, além de conjuntos sofisticados com saias ou calças. O mais importante é optar por um visual elegante, confortável e em harmonia com a ocasião.",
     },
     {
       title: "Evite",
-      description: "Por gentileza, (Homens) evitem o uso de camisa de times, bonés e chapéus, (Mulheres) evitem o uso de branco 🤍 (reservado exclusivamente para a noiva), tons de rosa 🩷 e verde esmeralda 💚, para manter a harmonia da paleta escolhida para este momento tão especial.",
+      description: "Para tornar este momento ainda mais especial, pedimos gentilmente que:\n\n• Homens: evitem camisetas de times, bonés e chapéus.\n• Mulheres: evitem roupas na cor branca 🤍 (reservada exclusivamente para a noiva), bem como os tons de rosa pink ou fuschia, em respeito à paleta escolhida para a celebração.",
     },
   ];
 
@@ -135,7 +132,7 @@ export function Event() {
           <div className="space-y-8">
             {schedule.map((item, index) => (
               <motion.div
-                key={item.time}
+                key={item.title}
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -148,7 +145,6 @@ export function Event() {
 
                 <div className="flex-grow">
                   <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mb-2">
-                    <span className="text-3xl font-serif text-wedding-pink">{item.time}</span>
                     <h3 className="text-2xl">{item.title}</h3>
                   </div>
                   <p className="text-gray-700 mb-2">{item.description}</p>
@@ -185,11 +181,11 @@ export function Event() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="bg-rose-50/50 rounded-2xl shadow-sm border border-rose-100 p-8 text-center"
+                className="bg-rose-50/50 rounded-2xl shadow-sm border border-rose-100 p-8 text-left"
               >
                 <Info className="w-12 h-12 text-wedding-pink mx-auto mb-4" />
-                <h3 className="text-2xl mb-3 font-serif">{item.title}</h3>
-                <p className="text-gray-700 leading-relaxed">{item.description}</p>
+                <h3 className="text-2xl mb-4 font-serif text-center">{item.title}</h3>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">{item.description}</p>
               </motion.div>
             ))}
           </div>

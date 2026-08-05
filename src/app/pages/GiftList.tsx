@@ -86,6 +86,7 @@ interface GiftItem {
   price: number;
   image: string;
   available: boolean;
+  imageClass?: string;
 }
 
 interface CartItem extends GiftItem {
@@ -117,13 +118,13 @@ export function GiftList() {
   }, []);
 
   const categories = [
-    { id: "todos", label: "Todos" },
     { id: "casa_decoracao", label: "Casa & Decoração" },
     { id: "cozinha", label: "Cozinha" },
     { id: "eletrodomesticos", label: "Eletrodomésticos" },
     { id: "moveis", label: "Móveis" },
     { id: "viagem", label: "Lua de Mel" },
     { id: "mia", label: "Ajude a Mia!" },
+    { id: "todos", label: "Todos" },
   ];
 
   const gifts: GiftItem[] = [
@@ -276,12 +277,12 @@ export function GiftList() {
     { id: 73, name: "Taças de Luxo para tomar agua da torneira", category: "mia", price: 104.19, image: miaImg1, available: true },
     { id: 74, name: "Ração para a coitada não passar fome", category: "mia", price: 177.86, image: miaImg2, available: true },
     { id: 75, name: "Dose de Paciência para aguentar os inquilinos", category: "mia", price: 83.14, image: miaImg3, available: true },
-    { id: 76, name: "Contribuição para o Home Office", category: "mia", price: 219.95, image: miaImg4, available: true },
+    { id: 76, name: "Contribuição para o Home Office", category: "mia", price: 219.95, image: miaImg4, available: true, imageClass: "object-bottom" },
     { id: 77, name: "Transporte para visitar o Luke", category: "mia", price: 146.29, image: miaImg5, available: true },
     { id: 78, name: "Contribuição para a decoração de fim de ano", category: "mia", price: 125.24, image: miaImg6, available: true },
     { id: 79, name: "Cobertinha para o sono merecido", category: "mia", price: 114.71, image: miaImg7, available: true },
     { id: 80, name: "Lookinho para ir na casa da vovó", category: "mia", price: 230.48, image: miaImg8, available: true },
-    { id: 81, name: "Uma noite sem os inquilinos", category: "mia", price: 251.53, image: miaImg9, available: true },
+    { id: 81, name: "Uma noite sem os inquilinos", category: "mia", price: 251.53, image: miaImg9, available: true, imageClass: "object-top" },
   ];
 
   const addToCart = (gift: GiftItem) => {
@@ -488,11 +489,11 @@ export function GiftList() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="relative z-10 text-center text-white px-4"
+          className="relative z-10 text-center text-white px-4 max-w-4xl"
         >
           <Gift className="w-16 h-16 mx-auto mb-6" />
           <h1 className="text-5xl md:text-6xl font-serif mb-4">Lista de Presentes</h1>
-          <p className="text-xl md:text-2xl">Escolha o presente perfeito para nós</p>
+          <p className="text-xl md:text-2xl">Preparamos esta lista com muito carinho para quem deseja contribuir com o início da nossa nova jornada.</p>
         </motion.div>
       </section>
 
@@ -611,7 +612,7 @@ export function GiftList() {
                     <ImageWithFallback
                       src={gift.image}
                       alt={gift.name}
-                      className="w-full h-full object-cover"
+                      className={`w-full h-full object-cover ${gift.imageClass || ""}`}
                     />
                     {!gift.available && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">

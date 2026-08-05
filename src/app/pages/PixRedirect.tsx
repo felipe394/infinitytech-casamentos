@@ -10,9 +10,9 @@ interface BankOption {
 }
 
 const BANKS: BankOption[] = [
-  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nubank://" },
+  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nuapp://" },
   { name: "Banco Inter", color: "bg-[#FF7A00]", textColor: "text-white", scheme: "bancointer://" },
-  { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "itaucode://" },
+  { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "itau://" },
   { name: "Bradesco", color: "bg-[#CC092F]", textColor: "text-white", scheme: "bradesco://" },
   { name: "Santander", color: "bg-[#EC0000]", textColor: "text-white", scheme: "santander://" },
   { name: "C6 Bank", color: "bg-[#181818]", textColor: "text-white", scheme: "c6bank://" },
@@ -66,11 +66,7 @@ export function PixRedirect() {
     setActiveBankAlert(bank.name);
 
     // 2. Aciona o esquema nativo do app
-    const link = document.createElement("a");
-    link.href = bank.scheme;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    window.location.href = bank.scheme;
 
     setTimeout(() => {
       setActiveBankAlert(null);
