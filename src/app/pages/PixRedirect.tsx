@@ -10,7 +10,7 @@ interface BankOption {
 }
 
 const BANKS: BankOption[] = [
-  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nuapp://" },
+  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nubank://" },
   { name: "Banco Inter", color: "bg-[#FF7A00]", textColor: "text-white", scheme: "bancointer://" },
   { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "itau://" },
   { name: "Bradesco", color: "bg-[#CC092F]", textColor: "text-white", scheme: "bradesco://" },
@@ -58,20 +58,6 @@ export function PixRedirect() {
     // Tenta copiar automaticamente assim que a página carregar
     handleCopy(false);
   }, []);
-
-  const openBank = (bank: BankOption) => {
-    // 1. Copia a chave no exato momento do clique (síncrono)
-    handleCopy(true);
-
-    setActiveBankAlert(bank.name);
-
-    // 2. Aciona o esquema nativo do app
-    window.location.href = bank.scheme;
-
-    setTimeout(() => {
-      setActiveBankAlert(null);
-    }, 6000);
-  };
 
   return (
     <div className="min-h-screen bg-rose-50/40 pt-24 pb-16 px-4 flex items-center justify-center">
@@ -135,14 +121,19 @@ export function PixRedirect() {
         {/* Bank Grid */}
         <div className="grid grid-cols-2 gap-2.5 mb-8">
           {BANKS.map((bank) => (
-            <button
+            <a
               key={bank.name}
-              onClick={() => openBank(bank)}
+              href={bank.scheme}
+              onClick={() => {
+                handleCopy(true);
+                setActiveBankAlert(bank.name);
+                setTimeout(() => setActiveBankAlert(null), 6000);
+              }}
               className={`${bank.color} ${bank.textColor} p-3 rounded-2xl font-bold text-xs flex items-center justify-between shadow-md hover:opacity-90 active:scale-95 transition-all text-left`}
             >
               <span>{bank.name}</span>
               <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-            </button>
+            </a>
           ))}
         </div>
 

@@ -94,7 +94,7 @@ interface CartItem extends GiftItem {
 }
 
 export function GiftList() {
-  const [selectedCategory, setSelectedCategory] = useState("todos");
+  const [selectedCategory, setSelectedCategory] = useState("casa_decoracao");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedGift, setSelectedGift] = useState<any>(null);
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
