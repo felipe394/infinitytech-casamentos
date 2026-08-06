@@ -1,31 +1,10 @@
 import { useEffect, useState } from "react";
-import { Heart, Check, Copy, ExternalLink, ShieldCheck, ArrowLeft, Smartphone } from "lucide-react";
+import { Heart, Check, Copy, ShieldCheck, ArrowLeft } from "lucide-react";
 import { Link } from "react-router";
-
-interface BankOption {
-  name: string;
-  color: string;
-  textColor: string;
-  scheme: string;
-}
-
-const BANKS: BankOption[] = [
-  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nuapp://" },
-  { name: "Banco Inter", color: "bg-[#FF7A00]", textColor: "text-white", scheme: "bancointer://" },
-  { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "itau://" },
-  { name: "Bradesco", color: "bg-[#CC092F]", textColor: "text-white", scheme: "bradesco://" },
-  { name: "Santander", color: "bg-[#EC0000]", textColor: "text-white", scheme: "santander://" },
-  { name: "C6 Bank", color: "bg-[#181818]", textColor: "text-white", scheme: "c6bank://" },
-  { name: "Banco do Brasil", color: "bg-[#FCDB00]", textColor: "text-blue-900", scheme: "bancodobrasil://" },
-  { name: "Caixa", color: "bg-[#005CA9]", textColor: "text-white", scheme: "caixa://" },
-  { name: "PicPay", color: "bg-[#11C76F]", textColor: "text-white", scheme: "picpay://" },
-  { name: "Mercado Pago", color: "bg-[#009EE3]", textColor: "text-white", scheme: "mercadopago://" },
-];
 
 export function PixRedirect() {
   const pixKey = "11945831201";
   const [copied, setCopied] = useState(false);
-  const [activeBankAlert, setActiveBankAlert] = useState<string | null>(null);
 
   const handleCopy = (showFeedback = true) => {
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -68,7 +47,6 @@ export function PixRedirect() {
             <Heart className="w-8 h-8 text-wedding-pink fill-wedding-pink" />
           </div>
           <h1 className="text-2xl font-serif text-gray-900">Presente via PIX</h1>
-
         </div>
 
         {/* Copy Status Badge */}
@@ -103,38 +81,11 @@ export function PixRedirect() {
           )}
         </button>
 
-        {/* Dynamic Alert Banner when Bank clicked */}
-        {activeBankAlert && (
-          <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-2xl p-3.5 mb-6 text-left flex items-center gap-2.5 animate-pulse">
-            <Smartphone className="w-5 h-5 text-amber-600 flex-shrink-0" />
-            <p>
-              Abrindo <strong>{activeBankAlert}</strong>... Se o aplicativo não abrir automaticamente, abra-o manualmente no seu celular e cole a chave copiada.
-            </p>
-          </div>
-        )}
-
-        {/* Bank Shortcuts Header */}
-        <div className="text-left mb-4">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Toque para abrir seu Banco:</p>
-        </div>
-
-        {/* Bank Grid */}
-        <div className="grid grid-cols-2 gap-2.5 mb-8">
-          {BANKS.map((bank) => (
-            <a
-              key={bank.name}
-              href={bank.scheme}
-              onClick={() => {
-                handleCopy(true);
-                setActiveBankAlert(bank.name);
-                setTimeout(() => setActiveBankAlert(null), 6000);
-              }}
-              className={`${bank.color} ${bank.textColor} p-3 rounded-2xl font-bold text-xs flex items-center justify-between shadow-md hover:opacity-90 active:scale-95 transition-all text-left`}
-            >
-              <span>{bank.name}</span>
-              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-            </a>
-          ))}
+        {/* Instruction */}
+        <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-2xl p-3.5 mb-6 text-left">
+          <p>
+            Abra o aplicativo do seu banco, vá até a opção <strong>PIX</strong> e cole a chave copiada no campo <strong>Pix Copia e Cola</strong> ou <strong>Chave Telefone</strong>.
+          </p>
         </div>
 
         {/* Footer info */}

@@ -664,36 +664,13 @@ export function GiftList() {
           >
             <h2 className="text-3xl md:text-4xl font-serif mb-6">Prefere nos ajudar através do PIX? 💰</h2>
 
-            <div className="flex flex-wrap justify-center gap-2 mb-6">
-              <button
-                onClick={() => setPixQrType('camera')}
-                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${pixQrType === 'camera'
-                    ? 'bg-white text-wedding-pink shadow-md scale-105'
-                    : 'bg-white/20 text-white hover:bg-white/30'
-                  }`}
-              >
-                📲 Câmera do Celular (Abre Bancos)
-              </button>
-              <button
-                onClick={() => setPixQrType('bank')}
-                className={`px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${pixQrType === 'bank'
-                    ? 'bg-white text-wedding-pink shadow-md scale-105'
-                    : 'bg-white/20 text-white hover:bg-white/30'
-                  }`}
-              >
-                🏦 Leitura no App do Banco
-              </button>
-            </div>
-
             <p className="text-sm md:text-base mb-6 opacity-90 font-medium max-w-lg mx-auto">
-              {pixQrType === 'camera'
-                ? "Aponte a câmera do celular para o QR Code abaixo para abrir a página do PIX, copiar a chave e abrir seu aplicativo de banco!"
-                : "Abra a opção PIX no aplicativo do seu banco e escaneie o QR Code abaixo."}
+              Abra a opção PIX no aplicativo do seu banco e escaneie o QR Code abaixo.
             </p>
 
             <div className="bg-white rounded-2xl p-4 w-52 h-52 mx-auto mb-8 shadow-inner flex items-center justify-center">
               <img
-                src={pixQrType === 'camera' ? pixLinkQrImg : pixQrImg}
+                src={pixQrImg}
                 alt="PIX QR Code"
                 className="w-full h-full object-contain"
               />
