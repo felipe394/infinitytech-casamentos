@@ -10,14 +10,14 @@ interface BankOption {
 }
 
 const BANKS: BankOption[] = [
-  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "nubank://" },
+  { name: "Nubank", color: "bg-[#820AD1]", textColor: "text-white", scheme: "https://nubank.com.br/" },
   { name: "Banco Inter", color: "bg-[#FF7A00]", textColor: "text-white", scheme: "bancointer://" },
-  { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "itau://" },
+  { name: "Itaú", color: "bg-[#EC7000]", textColor: "text-white", scheme: "https://www.itau.com.br/" },
   { name: "Bradesco", color: "bg-[#CC092F]", textColor: "text-white", scheme: "bradesco://" },
   { name: "Santander", color: "bg-[#EC0000]", textColor: "text-white", scheme: "santander://" },
   { name: "C6 Bank", color: "bg-[#181818]", textColor: "text-white", scheme: "c6bank://" },
   { name: "Banco do Brasil", color: "bg-[#FCDB00]", textColor: "text-blue-900", scheme: "bancodobrasil://" },
-  { name: "Caixa", color: "bg-[#005CA9]", textColor: "text-white", scheme: "caixa://" },
+  { name: "Caixa", color: "bg-[#005CA9]", textColor: "text-white", scheme: "https://www.caixa.gov.br/" },
   { name: "PicPay", color: "bg-[#11C76F]", textColor: "text-white", scheme: "picpay://" },
   { name: "Mercado Pago", color: "bg-[#009EE3]", textColor: "text-white", scheme: "mercadopago://" },
 ];
@@ -124,6 +124,8 @@ export function PixRedirect() {
             <a
               key={bank.name}
               href={bank.scheme}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => {
                 handleCopy(true);
                 setActiveBankAlert(bank.name);
