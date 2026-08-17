@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
-import { Users, Plus, Trash2, CheckCircle, XCircle, Search, LogOut, FileUp, Pencil, CreditCard, DollarSign, TrendingUp, MessageCircle, ExternalLink, Heart } from "lucide-react";
+import { Users, Plus, Trash2, CheckCircle, XCircle, Search, LogOut, FileUp, Pencil, CreditCard, DollarSign, TrendingUp, MessageCircle, ExternalLink, Heart, QrCode } from "lucide-react";
 import { guestService, Guest, normalizeText } from "../services/guestService";
 import { messageService, WeddingMessage } from "../services/messageService";
 import { supabase } from "../services/supabase";
 import * as XLSX from "xlsx";
+import { QRCodeGeneratorTab } from "../components/QRCodeGeneratorTab";
 
 interface Payment {
   id: string;
@@ -29,7 +30,7 @@ export function Admin() {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'guests' | 'payments' | 'messages' | 'whatsapp'>('guests');
+  const [activeTab, setActiveTab] = useState<'guests' | 'payments' | 'messages' | 'whatsapp' | 'qrcode'>('guests');
   const [payments, setPayments] = useState<Payment[]>([]);
   const [isLoadingPayments, setIsLoadingPayments] = useState(false);
   const [messages, setMessages] = useState<WeddingMessage[]>([]);
@@ -47,7 +48,7 @@ export function Admin() {
   // Convidados tab status filter
   const [guestStatusFilter, setGuestStatusFilter] = useState<'all' | 'pending' | 'confirmed' | 'declined'>('all');
 
-  const handleTabChange = (tab: 'guests' | 'payments' | 'messages' | 'whatsapp') => {
+  const handleTabChange = (tab: 'guests' | 'payments' | 'messages' | 'whatsapp' | 'qrcode') => {
     setActiveTab(tab);
     setCurrentPage(1);
   };
@@ -309,6 +310,17 @@ export function Admin() {
             >
               <MessageCircle className="w-4 h-4" />
               WhatsApp
+            </button>
+            <button
+              onClick={() => handleTabChange('qrcode')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl font-semibold transition-all whitespace-nowrap text-sm shrink-0 ${
+                activeTab === 'qrcode'
+                  ? 'bg-purple-600 text-white shadow-md shadow-purple-200'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              <QrCode className="w-4 h-4" />
+              QR Code & Divulgação
             </button>
           </div>
         </div>
@@ -1148,8 +1160,12 @@ export function Admin() {
             )}
           </>
         )}
-
       </div>
+    )}
+
+        {/* ============ QR CODE TAB ============ */}
+        {activeTab === 'qrcode' && (
+          <QRCodeGeneratorTab />
         )}
 
       </div>

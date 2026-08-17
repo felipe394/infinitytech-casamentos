@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router";
-import { Menu, X, Heart } from "lucide-react";
+import { Menu, X, Heart, QrCode } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import logo from "../../assets/logo.png";
+import { QRCodeModal } from "./QRCodeModal";
 
 export function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export function Layout() {
             </Link>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6">
               {menuItems.map((item) => (
                 <Link
                   key={item.path}
@@ -68,6 +70,19 @@ export function Layout() {
                   {item.label}
                 </Link>
               ))}
+              
+              <button
+                onClick={() => setIsQrModalOpen(true)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+                  isScrolled || location.pathname !== "/"
+                    ? "border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100"
+                    : "border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
+                }`}
+                title="Ver QR Code do Site"
+              >
+                <QrCode className="w-3.5 h-3.5" />
+                <span>QR Code</span>
+              </button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -101,6 +116,16 @@ export function Layout() {
                     {item.label}
                   </Link>
                 ))}
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setIsQrModalOpen(true);
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-rose-50 text-rose-700 rounded-lg font-semibold text-sm hover:bg-rose-100 transition-colors"
+                >
+                  <QrCode className="w-4 h-4" />
+                  <span>Ver QR Code do Site</span>
+                </button>
               </div>
             </motion.div>
           )}
@@ -120,10 +145,21 @@ export function Layout() {
               <Heart className="w-6 h-6 text-white fill-white" />
               <span className="text-2xl font-serif">Julia & Felipe</span>
             </div>
-            <p className="opacity-90 mb-4 font-serif">08 de Novembro de 2026</p>
-            <p className="opacity-80 text-sm mb-6">
+            <p className="opacity-90 mb-3 font-serif">08 de Novembro de 2026</p>
+            <p className="opacity-80 text-sm mb-5">
               Feito com amor para celebrar nosso grande dia 🩷
             </p>
+            
+            <div className="mb-6">
+              <button
+                onClick={() => setIsQrModalOpen(true)}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full text-xs font-semibold transition-all border border-white/20"
+              >
+                <QrCode className="w-4 h-4" />
+                <span>Gerar / Escanear QR Code do Site</span>
+              </button>
+            </div>
+
             <div className="opacity-60 text-xs transition-colors">
               <a href="https://infinitytechservices.com.br" target="_blank" rel="noopener noreferrer" className="hover:opacity-100 uppercase tracking-wider">
                 © Desenvolvido por InfinityTech Services ∞
@@ -136,6 +172,15 @@ export function Layout() {
           </div>
         </div>
       </footer>
+
+      {/* QR Code Interactive Modal */}
+      <QRCodeModal
+        isOpen={isQrModalOpen}
+        onClose={() => setIsQrModalOpen(false)}
+        initialUrl="https://casamento.infinitytechservices.com.br"
+        initialTitle="Conheça nosso site"
+      />
     </div>
   );
 }
+
