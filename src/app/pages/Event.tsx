@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Calendar, MapPin, Clock, Church, Music, Utensils, Info, Navigation, X } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import wazeIcon from "../../assets/waze.png";
-import salaoImg from "../../assets/salão.png";
+import eventImg from "../../assets/pre_wedding_capa4.jpeg";
 
 export function Event() {
   const [isNavModalOpen, setIsNavModalOpen] = useState(false);
@@ -51,7 +51,7 @@ export function Event() {
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <ImageWithFallback
-            src={salaoImg}
+            src={eventImg}
             alt="Local do Evento"
             className="w-full h-full object-cover"
           />
