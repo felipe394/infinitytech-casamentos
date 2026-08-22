@@ -70,14 +70,13 @@ export function Layout() {
                   {item.label}
                 </Link>
               ))}
-              
+
               <button
                 onClick={() => setIsQrModalOpen(true)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                  isScrolled || location.pathname !== "/"
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${isScrolled || location.pathname !== "/"
                     ? "border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100"
                     : "border-white/30 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
-                }`}
+                  }`}
                 title="Ver QR Code do Site"
               >
                 <QrCode className="w-3.5 h-3.5" />
@@ -149,14 +148,14 @@ export function Layout() {
             <p className="opacity-80 text-sm mb-5">
               Feito com amor para celebrar nosso grande dia 🩷
             </p>
-            
+
             <div className="mb-6">
               <button
                 onClick={() => setIsQrModalOpen(true)}
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-full text-xs font-semibold transition-all border border-white/20"
               >
                 <QrCode className="w-4 h-4" />
-                <span>Gerar / Escanear QR Code do Site</span>
+                <span>QR Code PIX / Escanear QR Code do Site</span>
               </button>
             </div>
 
