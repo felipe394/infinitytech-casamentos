@@ -159,6 +159,26 @@ export function Layout() {
               </button>
             </div>
 
+            {/* Marketing Banner */}
+            <div className="mb-6 mt-2">
+              <div className="inline-block bg-white/10 border border-white/25 rounded-2xl px-6 py-4 backdrop-blur-sm max-w-lg mx-auto">
+                <p className="text-white text-sm font-semibold mb-1">
+                  ✨ Gostou do nosso site de casamento?
+                </p>
+                <p className="text-white/85 text-xs leading-relaxed mb-3">
+                  Crie o seu site personalizado para o grande dia! Com fotos, lista de presentes, confirmação de presença e muito mais — tudo em um só lugar.
+                </p>
+                <a
+                  href="https://infinitytechservices.com.br/contato"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 bg-white text-rose-500 hover:bg-rose-50 text-xs font-bold px-4 py-2 rounded-full transition-all hover:scale-105 shadow-md"
+                >
+                  💬 Fale conosco e faça seu orçamento →
+                </a>
+              </div>
+            </div>
+
             <div className="opacity-60 text-xs transition-colors">
               <a href="https://infinitytechservices.com.br" target="_blank" rel="noopener noreferrer" className="hover:opacity-100 uppercase tracking-wider">
                 © Desenvolvido por InfinityTech Services ∞
