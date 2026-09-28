@@ -13,7 +13,6 @@ import toalhasImg from "../../assets/jogodetoalhas.png";
 import potesImg from "../../assets/jogodepotes.png";
 import lixeiraImg from "../../assets/lixeira.png";
 import pixQrImg from "../../assets/pix-qr.jpeg";
-import pixLinkQrImg from "../../assets/pix-link-qr.png";
 import mia1Img from "../../assets/Mia1.png";
 import mia2Img from "../../assets/mia2.png";
 import praiaImg from "../../assets/praia.png";
@@ -104,7 +103,6 @@ export function GiftList() {
   const [senderName, setSenderName] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [paymentTab, setPaymentTab] = useState<'pix' | 'card'>('pix');
-  const [pixQrType, setPixQrType] = useState<'camera' | 'bank'>('camera');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -788,35 +786,12 @@ export function GiftList() {
                 {paymentTab === 'pix' && (
                   <div className="text-center">
                     <div className="bg-rose-50/60 border border-rose-200 rounded-2xl p-6 mb-4">
-                      <div className="flex justify-center gap-2 mb-4">
-                        <button
-                          onClick={() => setPixQrType('camera')}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${pixQrType === 'camera'
-                              ? 'bg-wedding-pink text-white shadow-sm'
-                              : 'bg-rose-100/60 text-wedding-pink hover:bg-rose-100'
-                            }`}
-                        >
-                          📲 Câmera (Abre Bancos)
-                        </button>
-                        <button
-                          onClick={() => setPixQrType('bank')}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${pixQrType === 'bank'
-                              ? 'bg-wedding-pink text-white shadow-sm'
-                              : 'bg-rose-100/60 text-wedding-pink hover:bg-rose-100'
-                            }`}
-                        >
-                          🏦 App do Banco
-                        </button>
-                      </div>
-
                       <p className="text-wedding-pink font-bold text-sm mb-4">
-                        {pixQrType === 'camera'
-                          ? "Escaneie com a câmera do celular para copiar a chave e escolher seu banco:"
-                          : "Abra o aplicativo do seu banco e escaneie o QR Code para pagar via PIX:"}
+                        Abra o aplicativo do seu banco e escaneie o QR Code para pagar via PIX:
                       </p>
                       <div className="bg-white rounded-2xl p-4 w-52 h-52 mx-auto mb-4 shadow-inner">
                         <img
-                          src={pixQrType === 'camera' ? pixLinkQrImg : pixQrImg}
+                          src={pixQrImg}
                           alt="PIX QR Code"
                           className="w-full h-full object-contain"
                         />
