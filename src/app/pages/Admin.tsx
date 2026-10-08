@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "motion/react";
-import { Users, Plus, Trash2, CheckCircle, XCircle, Search, LogOut, FileUp, Pencil, CreditCard, DollarSign, TrendingUp, MessageCircle, ExternalLink, Heart, QrCode } from "lucide-react";
+import { Users, Plus, Trash2, CheckCircle, XCircle, Search, LogOut, FileUp, Download, Pencil, CreditCard, DollarSign, TrendingUp, MessageCircle, ExternalLink, Heart, QrCode, User } from "lucide-react";
 import { guestService, Guest, normalizeText } from "../services/guestService";
 import { messageService, WeddingMessage } from "../services/messageService";
 import { supabase } from "../services/supabase";
@@ -25,8 +25,15 @@ export function Admin() {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editingGuest, setEditingGuest] = useState<Guest | null>(null);
-  const [guestForm, setGuestForm] = useState({ name: "", family: "", totalGuests: 1, phone: "" });
+  const [guestForm, setGuestForm] = useState<{
+    name: string;
+    family: string;
+    totalGuests: number;
+    phone: string;
+    confirmedGuestsText: string;
+  }>({ name: "", family: "", totalGuests: 1, phone: "", confirmedGuestsText: "" });
   const [isImporting, setIsImporting] = useState(false);
+
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -102,11 +109,14 @@ export function Admin() {
   const handleAddGuest = async (e: React.FormEvent) => {
     e.preventDefault();
     await guestService.addGuest({
-      ...guestForm,
+      name: guestForm.name,
+      family: guestForm.family,
+      totalGuests: guestForm.totalGuests,
+      phone: guestForm.phone,
       status: 'pending',
       confirmedCount: 0,
     });
-    setGuestForm({ name: "", family: "", totalGuests: 1, phone: "" });
+    setGuestForm({ name: "", family: "", totalGuests: 1, phone: "", confirmedGuestsText: "" });
     setIsAdding(false);
     await fetchGuests();
   };
@@ -117,7 +127,8 @@ export function Admin() {
       name: guest.name,
       family: guest.family,
       totalGuests: guest.totalGuests,
-      phone: guest.phone || ""
+      phone: guest.phone || "",
+      confirmedGuestsText: guest.confirmedGuests && guest.confirmedGuests.length > 0 ? guest.confirmedGuests.join(", ") : ""
     });
     setIsEditing(true);
   };
@@ -126,14 +137,43 @@ export function Admin() {
     e.preventDefault();
     if (!editingGuest) return;
 
+    const confirmedGuests = guestForm.confirmedGuestsText
+      ? guestForm.confirmedGuestsText.split(",").map(s => s.trim()).filter(Boolean)
+      : (editingGuest.confirmedGuests || []);
+
     await guestService.updateGuest(editingGuest.id, {
-      ...guestForm
+      name: guestForm.name,
+      family: guestForm.family,
+      totalGuests: guestForm.totalGuests,
+      phone: guestForm.phone,
+      confirmedGuests
     });
-    setGuestForm({ name: "", family: "", totalGuests: 1, phone: "" });
+    setGuestForm({ name: "", family: "", totalGuests: 1, phone: "", confirmedGuestsText: "" });
     setEditingGuest(null);
     setIsEditing(false);
     await fetchGuests();
   };
+
+
+  const handleExportExcel = () => {
+    const exportData = guests.map(g => ({
+      'Nome Principal': g.name,
+      'Família / Grupo': g.family || '',
+      'Telefone / WhatsApp': g.phone || '',
+      'Total de Convites': g.totalGuests,
+      'Quantidade Confirmada': g.status === 'confirmed' ? g.confirmedCount : 0,
+      'Status': g.status === 'confirmed' ? 'Confirmado' : g.status === 'declined' ? 'Não virá' : 'Pendente',
+      'Nomes dos Presentes Confirmados': g.confirmedGuests && g.confirmedGuests.length > 0
+        ? g.confirmedGuests.join(', ')
+        : (g.status === 'confirmed' ? g.name : '')
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Lista de Convidados");
+    XLSX.writeFile(wb, `Lista_Convidados_Casamento_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  };
+
 
   const handleDelete = async (id: string) => {
     if (confirm("Deseja realmente excluir este convidado?")) {
@@ -342,8 +382,17 @@ export function Admin() {
                 {isImporting ? "Importando..." : "Importar Planilha"}
               </button>
               <button
+                onClick={handleExportExcel}
+                disabled={guests.length === 0}
+                className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors shadow-sm disabled:opacity-50 text-sm font-medium"
+                title="Baixar lista de convidados em formato Excel"
+              >
+                <Download className="w-4 h-4 text-green-600" />
+                Exportar Excel
+              </button>
+              <button
                 onClick={() => {
-                  setGuestForm({ name: "", family: "", totalGuests: 1, phone: "" });
+                  setGuestForm({ name: "", family: "", totalGuests: 1, phone: "", confirmedGuestsText: "" });
                   setIsAdding(true);
                 }}
                 className="flex items-center justify-center gap-2 px-4 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl transition-colors shadow-lg text-sm font-medium"
@@ -433,7 +482,7 @@ export function Admin() {
                 <table className="w-full text-left">
                   <thead>
                     <tr className="bg-gray-50">
-                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome</th>
+                      <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nome / Confirmados</th>
                       <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Família</th>
                       <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider text-center">Qtd</th>
                       <th className="px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Telefone</th>
@@ -447,7 +496,22 @@ export function Admin() {
                     ) : paginatedGuests.length > 0 ? (
                       paginatedGuests.map((guest) => (
                         <tr key={guest.id} className="hover:bg-gray-50/50 transition-colors">
-                          <td className="px-5 py-3 font-medium text-gray-900 text-sm">{guest.name}</td>
+                          <td className="px-5 py-3 text-sm">
+                            <p className="font-medium text-gray-900">{guest.name}</p>
+                            {guest.status === 'confirmed' && guest.confirmedGuests && guest.confirmedGuests.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-1.5">
+                                {guest.confirmedGuests.map((attendee, idx) => (
+                                  <span
+                                    key={idx}
+                                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-100 text-[11px] font-medium"
+                                  >
+                                    <User className="w-3 h-3 text-rose-400" />
+                                    {attendee}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </td>
                           <td className="px-5 py-3 text-gray-500 text-sm">{guest.family}</td>
                           <td className="px-5 py-3 text-center text-gray-600 text-sm">{guest.totalGuests}</td>
                           <td className="px-5 py-3 text-gray-500 font-mono text-xs">{guest.phone || '-'}</td>
@@ -468,10 +532,10 @@ export function Admin() {
                           </td>
                           <td className="px-5 py-3 text-right">
                             <div className="flex justify-end gap-1">
-                              <button onClick={() => handleEditClick(guest)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors">
+                              <button onClick={() => handleEditClick(guest)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors" title="Editar">
                                 <Pencil className="w-4 h-4" />
                               </button>
-                              <button onClick={() => handleDelete(guest.id)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors">
+                              <button onClick={() => handleDelete(guest.id)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors" title="Excluir">
                                 <Trash2 className="w-4 h-4" />
                               </button>
                             </div>
@@ -494,12 +558,25 @@ export function Admin() {
                 paginatedGuests.map((guest) => (
                   <div key={guest.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
                     <div className="flex justify-between items-start mb-2">
-                      <div>
+                      <div className="flex-1">
                         <p className="font-semibold text-gray-900">{guest.name}</p>
                         <p className="text-xs text-gray-400">{guest.family} · {guest.totalGuests} pessoa{guest.totalGuests !== 1 ? 's' : ''}</p>
                         {guest.phone && <p className="text-xs text-gray-400 font-mono mt-0.5">{guest.phone}</p>}
+                        {guest.status === 'confirmed' && guest.confirmedGuests && guest.confirmedGuests.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {guest.confirmedGuests.map((attendee, idx) => (
+                              <span
+                                key={idx}
+                                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 border border-rose-100 text-[11px] font-medium"
+                              >
+                                <User className="w-3 h-3 text-rose-400" />
+                                {attendee}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                      <div className="flex gap-1 shrink-0">
+                      <div className="flex gap-1 shrink-0 ml-2">
                         <button onClick={() => handleEditClick(guest)} className="p-1.5 text-gray-400 hover:text-rose-500 transition-colors">
                           <Pencil className="w-4 h-4" />
                         </button>
@@ -527,6 +604,7 @@ export function Admin() {
                 <div className="bg-white rounded-2xl p-6 text-center text-gray-400 text-sm">Nenhum convidado encontrado</div>
               )}
             </div>
+
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
@@ -1224,6 +1302,20 @@ export function Admin() {
                 />
                 <p className="text-xs text-gray-400 mt-1">Apenas números. Opcional para salvar agora.</p>
               </div>
+              {isEditing && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Nomes dos Confirmados</label>
+                  <input
+                    type="text"
+                    value={guestForm.confirmedGuestsText}
+                    onChange={(e) => setGuestForm({ ...guestForm, confirmedGuestsText: e.target.value })}
+                    className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-rose-500"
+                    placeholder="Ex: Maria Silva, João Santos (separados por vírgula)"
+                  />
+                  <p className="text-xs text-gray-400 mt-1">Separe os nomes completos por vírgula.</p>
+                </div>
+              )}
+
               <div className="flex gap-4 mt-8">
                 <button
                   type="button"
